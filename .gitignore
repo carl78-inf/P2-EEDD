@@ -1,0 +1,58 @@
+# ---- Artefactos de compilación ----
+bin/
+obj/
+build/
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.gch
+*.pch
+*.d
+*.gcda
+*.gcno
+*.gcov
+core
+core.*
+
+# ---- Code::Blocks ----
+*.layout
+*.depend
+*.cbTemp
+*.cbp.bak
+default.conf
+
+# ---- CMake / Make ----
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+makefile
+*.mk
+compile_commands.json
+
+# ---- Editores / IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.clangd/
+.cache/
+
+# ---- Sistema ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Entornos / temporales ----
+*.log
+*.tmp
+*.bak
+.env
