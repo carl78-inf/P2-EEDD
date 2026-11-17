@@ -34,9 +34,17 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/ArbolBinarioBusqueda.h" />
+		<Unit filename="include/Centro.h" />
 		<Unit filename="include/Lista.h" />
+		<Unit filename="include/Venta.h" />
+		<Unit filename="include/napoli.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/ArbolBinarioBusqueda.cpp" />
+		<Unit filename="src/Centro.cpp" />
 		<Unit filename="src/Lista.cpp" />
+		<Unit filename="src/Venta.cpp" />
+		<Unit filename="src/napoli.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
