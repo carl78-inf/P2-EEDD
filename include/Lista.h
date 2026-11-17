@@ -1,5 +1,6 @@
 #ifndef LISTA_H
 #define LISTA_H
+#include <cstddef>
 
 class NodoLista
 {
@@ -38,7 +39,7 @@ class Lista
     public:
         Lista();
         ~Lista();
-        void insertar(int pos = -1, int v);
+        void insertar(int v, int pos = -1);
         int obtener(int pos);
         int buscar(int v);
         void borrar(int v);
