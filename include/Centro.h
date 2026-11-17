@@ -1,17 +1,36 @@
 #ifndef CENTRO_H
 #define CENTRO_H
 
+#include <Lista.h>
 
+#include <string>
+#include <iostream>
+#include <string.h>
+#include <ctime>
+#include <stdlib.h>
+#include <iomanip>
 
-class Centro
+using namespace std;
+
+//Definición de los tipos enumerados que utilizará Venta
+enum Localidad {Mostoles, Alcala, Leganes, Fuenlabrada, Getafe, Alcorcon, Torrejon, Parla,
+                Alcobendas, Coslada, Pozuelo, Rivas, Valdemoro, Majadahonda, Aranjuez, Arganda,
+                Boadilla, Pinto, Colmenar, TresCantos, Azuqueca};
+
+//Centro --> valor en NodoABB
+struct Centro
 {
-    private:
-        int id_centro;    //ID único del Centro de 3 cifras (100-999)
-        string localidad; //Localidad donde se encuentra el Centro
-
-    public:
-        Centro();
-        virtual ~Centro();
+    int id_centro;       //ID único del Centro de 3 cifras (100-999)
+    Localidad localidad; //Localidad donde se encuentra el Centro
+    Lista ventas;        //Lista de ventas asociadas al centro (inicialmente vacía)
 };
+
+int generarIDCentroRandom();               //Genera un ID de centro aleatorio
+
+Centro generarCentroRandom(int id = NULL); //Genera un centro aleatorio (lista de ventas vacía)
+
+bool mismoID(Centro c1, Centro c2);        //Compara el ID de dos centros y devuelve True si son iguales
+
+void mostrar(Centro c);                    //Muestra el centro por pantalla
 
 #endif // CENTRO_H
