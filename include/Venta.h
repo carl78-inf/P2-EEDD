@@ -24,12 +24,12 @@ struct Venta
     string fecha_venta;       //Fecha en que se realizó la venta (formato DD-MM-2026)
 };
 
-int generarIDVentaRandom();               //Genera un ID de centro aleatorio
+string generarIDVentaRandom();           //Genera un ID de centro aleatorio
 
-Centro generarVentaRandom(int id = NULL); //Genera una venta aleatoria (con el centro sin asignar)
+Venta generarVentaRandom(int id = NULL); //Genera una venta aleatoria (con el centro sin asignar)
 
-bool mismoID(Venta v1, Venta v2);         //Compara el ID de dos ventas y devuelve True si son iguales
+bool mismoID(Venta v1, Venta v2);        //Compara el ID de dos ventas y devuelve True si son iguales
 
-void mostrar(Venta v);                    //Muestra la información de la venta por pantalla en formato de tabla
+void mostrar(Venta v);                   //Muestra la información de la venta por pantalla en formato de tabla
 
 #endif // VENTA_H

@@ -26,7 +26,7 @@ Centro generarCentroRandom(int id)
                          Alcobendas, Coslada, Pozuelo, Rivas, Valdemoro, Majadahonda, Aranjuez, Arganda,
                          Boadilla, Pinto, Colmenar, TresCantos, Azuqueca};
 
-    c.localidad = tipo[rand() % (21)]; //Localidad aleatoria
+    c.localidad = local[rand() % (21)]; //Localidad aleatoria
 
     return c;
 }
@@ -114,14 +114,10 @@ string localidadToString(Localidad localidad)
 
 
 //Muestra el Centro por pantalla con su información y la de todas sus ventas asociadas
-void printPedidoCola(Pedido p)
+void mostrar(Centro c)
 {
-    cout << left << "| " << p.id_centro                             //ID del pedido
-         << " | " << setw(7) << p.id_cliente                        //ID del cliente
-         << " | " << setw(13) << tipoPizzaToString(p.tipo_pizza)    //Tipo de pizza
-         << " | " << setw(7) << tamanoToString(p.tamano)            //Tamaño
-         << " | " << setw(5) << zonaRepartoToString(p.zona_reparto) //Zona de reparto
-         << " | " << setw(20) << (p.personalizada ? "Si" : "No")    //Preparación especial
-         << " | " << setw(20) << p.estado                           //Estado del pedido
+    cout << left << "| " << c.id_centro     //ID del pedido
+         << " | " << setw(7) << c.localidad //Localidad
          << " |";
+    //c.ventas.mostrar();
 }

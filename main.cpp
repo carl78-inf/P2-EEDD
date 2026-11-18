@@ -22,7 +22,7 @@ int main()
         cout << "|  4. Buscar una venta                             |" << endl;
         cout << "|  5. Extraer una venta                            |" << endl;
         cout << "|  6. Trasladar una venta a otro centro            |" << endl;
-        cout << "|  7. Mostrar estadísticas de los centros          |" << endl;
+        cout << "|  7. Mostrar estadisticas de los centros          |" << endl;
         cout << "|  8. Generar y distribuir nuevas ventas           |" << endl;
         cout << "|  0. Salir                                        |" << endl;
         cout << "+--------------------------------------------------+" << endl;

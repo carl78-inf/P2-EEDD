@@ -1,7 +1,7 @@
 #include "Venta.h"
 
 //Genera un ID de venta aleatoria
-string generarIDRandom()
+string generarIDVentaRandom()
 {
     string id = "V";
     for (int i = 0; i < 5; i++)
@@ -25,33 +25,34 @@ Venta generarVentaRandom(string id)
         v.id_venta = id; //Si le pasamos un id, se lo asignamos al pedido
     }
 
-    v.cod_pizza = "NP0" + ('1' + (rand() % 8)); //Código de pizza aleatorio
+    int num = rand() % 8;
+    v.cod_pizza = "NP0" + ('1' + num); //Código de pizza aleatorio
 
     //Categoría correspondiente según el código de pizza
-    switch(v.cod_pizza)
+    switch(num)
     {
-        case "NP01":
+        case 1:
             v.categoria = Tradicional;
             break;
-        case "NP02":
+        case 2:
             v.categoria = Tradicional;
             break;
-        case "NP03":
+        case 3:
             v.categoria = Carne;
             break;
-        case "NP04":
+        case 4:
             v.categoria = Carne;
             break;
-        case "NP05":
+        case 5:
             v.categoria = Verduras;
             break;
-        case "NP06":
+        case 6:
             v.categoria = Verduras;
             break;
-        case "NP07":
+        case 7:
             v.categoria = Quesos;
             break;
-        case "NP08":
+        case 8:
             v.categoria = Quesos;
             break;
     }
@@ -60,7 +61,7 @@ Venta generarVentaRandom(string id)
 
     int mes, dias_en_mes, dia;
 
-    mes = = 1 + rand() % 12; //Mes aleatorio
+    mes = 1 + rand() % 12; //Mes aleatorio
 
     //Establecemos el número de días según el mes
     if(mes == 2)
@@ -79,8 +80,10 @@ Venta generarVentaRandom(string id)
     dia = 1 + rand() % dias_en_mes; //Día aleatorio y válido según el mes
 
     //Fecha aleatoria con formato DD-MM-2026
-    v.fecha_venta = (dia / 10 != 0 ? to_string(dia) : "0" + to_string(dia)) + "-"
-                    (mes / 10 != 0 ? to_string(mes) : "0" + to_string(mes))+ () + "-2026"
+    string dia_str = (dia < 10) ? ("0" + to_string(dia)) : to_string(dia);
+    string mes_str = (mes < 10) ? ("0" + to_string(mes)) : to_string(mes);
+
+    v.fecha_venta = dia_str + "-" + mes_str + "-2026";
 
     return v;
 }

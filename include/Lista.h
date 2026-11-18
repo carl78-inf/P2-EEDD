@@ -3,49 +3,51 @@
 
 #include <Venta.h>
 
+//Clase NodoLista
 class NodoLista
 {
     private:
-        int valor;
-        NodoLista *siguiente;
+        Venta valor;          //Valor del elemento
+        NodoLista *siguiente; //Puntero al siguiente Nodo
         friend class Lista;
 
     public:
-        NodoLista(int v, NodoLista *sig = NULL)
+        //Constructor con parámetros
+        NodoLista(Venta v, NodoLista *sig = NULL)
         {
             valor = v;
             siguiente = sig;
         }
 };
 
+//Clase Lista
 class Lista
 {
     private:
-        NodoLista *cabeza;
-        NodoLista *ultimo;
-        int longitud;
+        NodoLista *cabeza; //Puntero al primer elemento
+        NodoLista *ultimo; //Puntero al último elemento
+        int longitud;      //Longitud
 
-        void insertarNodoInicio(int v);
-        void insertarNodoFin(int v);
-        void insertarNodoIntermedio(int pos, int v);
+        //Métodos auxiliares para inserción y eliminación de nodos
+        void insertarNodoInicio(Venta v);              //Inserta un elemento al inicio de la Lista
+        void insertarNodoFin(Venta v);                 //Inserta un elemento al final de la Lista
+        void insertarNodoIntermedio(Venta v, int pos); //Inserta un elemento intermedio en la Lista en la posición indicada
 
-        void obtenerNodoInicio();
-        void obtenerNodoFin();
-        void obtenerNodoIntermedio(int pos);
-
-        void borrarNodoInicio();
-        void borrarNodoFin();
-        void borrarNodoIntermedio(int pos);
+        void borrarNodoInicio();            //Borra el primer elemento de la Lista
+        void borrarNodoFin();               //Borra el último elemento de la Lista
+        void borrarNodoIntermedio(int pos); //Borra el elemento intermedio de la Lista en la posición indicada
 
     public:
-        Lista();
-        ~Lista();
-        void insertar(int v, int pos = -1);
-        int obtener(int pos);
-        int buscar(int v);
-        void borrar(int v);
-        bool esVacia();
-        int getLongitud();
+        Lista();  //Constructor
+        ~Lista(); //Destructor
+
+        bool esVacia();    //Devuelve True si la Lista es vacía
+        int getLongitud(); //Devuelve la longitud de la Lista
+
+        void insertar(Venta v, int pos = -1); //Inserta un elemento en la posición indicada (por defecto al final = -1) (0 - longitud-1)
+        void borrar(int pos);                 //Borra el elemento en la posición indicada (0 - longitud-1)
+        Venta obtener(int pos);               //Obtene el elemento en la posición indicada (0 - longitud-1)
+        int buscar(Venta v);                  //Devuelve la posición de la primera aparición del elemento (-1 si no lo encuentra)
 };
 
 #endif // LISTA_H
