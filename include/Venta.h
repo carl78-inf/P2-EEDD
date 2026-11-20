@@ -3,7 +3,6 @@
 
 #include <string>
 #include <iostream>
-#include <string.h>
 #include <ctime>
 #include <stdlib.h>
 #include <iomanip>
@@ -16,7 +15,7 @@ enum CategoriaPizza {Tradicional, Carne, Verduras, Quesos};
 //Venta --> valor en NodoLista
 struct Venta
 {
-    int id_centro;            //ID del centro (existente) al que está asociado la Venta
+    int id_centro = 0;        //ID del centro (existente) al que está asociado la Venta
     string id_venta;          //ID único de la Venta (letra V seguida de 5 cifras)
     string cod_pizza;         //Código de la pizza vendida (NP01-NP08)
     CategoriaPizza categoria; //Categoría a la que pertenece esa pizza (dependiente de cod_pizza)
@@ -24,12 +23,10 @@ struct Venta
     string fecha_venta;       //Fecha en que se realizó la venta (formato DD-MM-2026)
 };
 
-string generarIDVentaRandom();           //Genera un ID de centro aleatorio
+string generarIDVentaRandom();            //Genera un ID de centro aleatorio
 
-Venta generarVentaRandom(int id = NULL); //Genera una venta aleatoria (con el centro sin asignar)
+Venta generarVentaRandom(string id = ""); //Genera una venta aleatoria (con el centro sin asignar)
 
-bool mismoID(Venta v1, Venta v2);        //Compara el ID de dos ventas y devuelve True si son iguales
-
-void mostrar(Venta v);                   //Muestra la información de la venta por pantalla en formato de tabla
+void mostrarFila(Venta v);                //Muestra la información de la venta por pantalla en formato fila de tabla
 
 #endif // VENTA_H

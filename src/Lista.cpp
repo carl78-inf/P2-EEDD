@@ -8,8 +8,6 @@ Lista::Lista()
     longitud = 0;  //Longitud a 0
 }
 
-//-----------------------------------------------------------------------------------------------//
-
 //Destructor
 Lista::~Lista()
 {
@@ -33,8 +31,6 @@ bool Lista::esVacia()
         && (ultimo == NULL);
 }
 
-//-----------------------------------------------------------------------------------------------//
-
 //Devuelve la longitu de la Lista
 int Lista::getLongitud()
 {
@@ -43,239 +39,166 @@ int Lista::getLongitud()
 
 //-----------------------------------------------------------------------------------------------//
 
-//Inserta un nodo al inicio de la Lista
-void Lista::insertarNodoInicio(Venta v)
-{
-    NodoLista *nuevo = new NodoLista(v); //Puntero a un nuevo nodo
-
-    //Si está vacía, los dos punteros apuntan al nuevo nodo
-    if(esVacia())
-    {
-        cabeza = nuevo;
-        ultimo = nuevo;
-    }
-
-    //Si no
-    else
-    {
-        nuevo->siguiente = cabeza; //Nuevo nodo apunta al primer nodo de la lista
-        cabeza = nuevo;            //Puntero cabeza apunta al nuevo nodo
-    }
-
-    longitud++; //Incrementamos la longitud
-}
-
-//Inserta un nodo al final de la Lista
-void Lista::insertarNodoFin(Venta v)
-{
-    NodoLista *nuevo = new NodoLista(v); //Puntero a un nuevo nodo
-
-    //Si está vacía, los dos punteros apuntan al nuevo nodo
-    if(esVacia())
-    {
-        cabeza = nuevo;
-        ultimo = nuevo;
-    }
-
-    //Si no
-    else
-    {
-        ultimo->siguiente = nuevo; //Último nodo apunta al nuevo nodo
-        ultimo = nuevo;            //Puntero ultimo apunta al nuevo nodo
-    }
-
-    longitud++; //Incrementamos la longitud
-}
-
-//Inserta un nodo en una posición intermedia de la Lista
-void Lista::insertarNodoIntermedio(Venta v, int pos)
-{
-    //Error si no es una posición valida
-    if(pos < 0 || pos >= longitud)
-    {
-        cout << "Error: posicion fuera de los limites de la lista";
-    }
-
-    //Error si no es una posición intermedia de la lista
-    else if(pos == 0 || pos == longitud - 1)
-    {
-        cout << "Error: no es una posicion intermedia";
-    }
-
-    //Si es una posición intermedia de la lista
-    else
-    {
-        int contador = 0;        //Inicializamos un contador a cero
-        NodoLista *aux = cabeza; //Puntero auxiliar apunta a la cabeza
-
-        //Avanzamos en la lista hasta la posición anterior a la indicada
-        while(contador < pos - 1)
-        {
-            aux = aux->siguiente; //Avanzamos el puntero al siguiente nodo
-            contador++;           //Incrementamos el contador
-        }
-
-        //El nuevo nodo apunta a la posición siguiente de aux
-        NodoLista *nodo = new NodoLista(v, aux->siguiente);
-
-        aux->siguiente = nodo; //El nodo apuntado por aux apunta al nuevo nodo
-    }
-
-    longitud++; //Incrementamos la longitud
-}
-
-//Inserta un nodo en la posición indicada de la Lista
+//Inserta un nodo en la posición indicada de la Lista (por defecto al final)
 void Lista::insertar(Venta v, int pos)
 {
-    if(pos == -1) pos = (longitud == 0)? (0) : (longitud - 1); //Por defecto, se inserta al final
-
-    //Error si no es una posición valida (y != -1)
-    if(pos < 0 || pos >= longitud)
+    //Validamos que la posición sea válida
+    if (pos != -1 && (pos < 0 || pos >= longitud))
     {
-        cout << "Error: posicion fuera de los limites de la lista";
+        cout << "Error: Posicion fuera de los limites de la lista." << endl;
     }
-
-    //Si es la primera posición de la lista
-    else if(pos == 0)
-    {
-        insertarNodoInicio(v);
-    }
-
-    //Si es la última posición de la lista
-    else if(pos == longitud - 1)
-    {
-        insertarNodoFin(v);
-    }
-
-    //Si es una posición intermedia
     else
     {
-        insertarNodoIntermedio(v, pos);
-    }
+        NodoLista *nuevo = new NodoLista(v); //Puntero a un nuevo nodo
 
-    longitud++; //Incrementamos la longitud
+        //Si está vacía
+        if(esVacia())
+        {
+            //Los dos punteros apuntan al nuevo nodo
+            cabeza = nuevo;
+            ultimo = nuevo;
+        }
+
+        //Si se inserta al inicio de la lista
+        else if(pos == 0)
+        {
+            nuevo->siguiente = cabeza; //Nuevo nodo apunta al primer nodo de la lista
+            cabeza = nuevo;            //Puntero cabeza apunta al nuevo nodo
+        }
+
+        //Si se inserta al final de la lista
+        else if(pos == -1)
+        {
+            ultimo->siguiente = nuevo; //Último nodo apunta al nuevo nodo
+            ultimo = nuevo;            //Puntero ultimo apunta al nuevo nodo
+        }
+
+        //Si se inserta en una posición intermedia
+        else
+        {
+            int contador = 0;        //Inicializamos un contador a cero
+            NodoLista *aux = cabeza; //Puntero auxiliar apunta a la cabeza
+
+            //Avanzamos en la lista hasta la posición anterior a la indicada
+            while(contador < pos - 1)
+            {
+                aux = aux->siguiente; //Avanzamos el puntero al siguiente nodo
+                contador++;           //Incrementamos el contador
+            }
+
+            //Insertamos el nuevo nodo entre aux y aux->siguiente
+            nuevo->siguiente = aux->siguiente; //El nuevo nodo apunta a aux->siguiente
+            aux->siguiente = nuevo;            //El nodo apuntado por aux apunta al nuevo nodo
+        }
+
+        longitud++; //Incrementamos la longitud
+    }
 }
 
-//-----------------------------------------------------------------------------------------------//
-
-//Elimina el nodo al inicio de la Lista
-void Lista::borrarNodoInicio()
+//Elimina el nodo en la posición indicada (por defecto elimina la cabeza -> 0)
+void Lista::eliminar(int pos)
 {
-    if(!esVacia())
+    //Validamos que la posición sea válida
+    if (pos < 0 || pos >= longitud)
+    {
+        cout << "Error: Posicion fuera de los limites de la lista." << endl;
+    }
+    else
     {
         NodoLista *aux = cabeza; //Puntero auxiliar que apunta al primer nodo
 
-        //Si solo hay un elemento, ponemos todos los punteros a null y lo eliminamos
+        //Si solo hay un elemento
         if((cabeza == ultimo) && (cabeza->siguiente == NULL))
         {
-            cabeza = NULL;
-            ultimo = NULL;
-            delete(aux);
+            cabeza = NULL; //Cabeza a NULL
+            ultimo = NULL; //Ultimo a NULL
+            delete(aux);   //Eliminamos el nodo
         }
 
-        //Si no, eliminaremos el primer elemento Y primero apuntará al siguiente nodo
+        //Si eliminamos el primer elemento
+        else if(pos == 0)
+        {
+            cabeza = cabeza->siguiente; //Cabeza apuntará al siguiente nodo
+            aux->siguiente = NULL;      //El nodo a eliminar apuntará a NULL
+            delete(aux);                //Eliminamos el nodo
+        }
+
+        //Si eliminamos un nodo distinto
         else
         {
-            cabeza = cabeza->siguiente;
-            aux->siguiente = NULL;
-            delete(aux);
+            int contador = 0;        //Inicializamos un contador a cero
+
+            //Avanzamos en la lista hasta la posición anterior a la indicada
+            while(contador < pos - 1)
+            {
+                aux = aux->siguiente; //Avanzamos el puntero al siguiente nodo
+                contador++;           //Incrementamos el contador
+            }
+
+            NodoLista *elim = aux->siguiente; //Puntero al nodo que queremos eliminar
+            aux->siguiente = elim->siguiente; //Nodo anterior apuntará al siguiente a eliminar
+
+            //Si es el ultimo elemento
+            if(elim->siguiente == NULL)
+            {
+                ultimo = aux; //Ultimo apuntará al nodo anterior
+            }
+
+            delete(elim);                     //Eliminamos el nodo
         }
 
         longitud--; //Decrementamos la longitud
     }
 }
 
-//Elimina el nodo al final de la Lista
-void Lista::borrarNodoFin()
+//Elimina todos los elementos de la lista
+void Lista::vaciar()
 {
-    if(!esVacia())
+    //Mientras queden nodos
+    while(!esVacia())
     {
-        NodoLista *aux = cabeza; //Puntero auxiliar que apunta al primer nodo
-
-        //Si solo hay un elemento, ponemos todos los punteros a null y lo eliminamos
-        if((cabeza == ultimo) && (cabeza->siguiente == NULL))
-        {
-            cabeza = NULL;
-            ultimo = NULL;
-            delete(aux);
-        }
-
-        //Si no, eliminaremos el primer elemento Y primero apuntará al siguiente nodo
-        else
-        {
-            cabeza = cabeza->siguiente;
-            aux->siguiente = NULL;
-            delete(aux);
-        }
-
-        longitud--; //Decrementamos la longitud
+        eliminar(); //Eliminamos la cabeza
     }
 }
 
-void Lista::borrarNodoIntermedio(int pos)
+//Modifica la Venta en la posición indicada
+void Lista::modificar(Venta v, int pos)
 {
-    //Error si no es una posición valida
-    if(pos < 0 || pos >= longitud)
+    //Validamos que la posición sea válida
+    if (pos < 0 || pos >= longitud)
     {
-        cout << "Error: posicion fuera de los limites de la lista";
+        cout << "Error: Posicion fuera de los limites de la lista." << endl;
     }
 
-    //Error si no es una posición intermedia de la lista
-    else if(pos == 0 || pos == longitud - 1)
-    {
-        cout << "Error: no es una posicion intermedia";
-    }
-
-    //Si es una posición intermedia de la lista
     else
     {
-        int contador = 0;        //Inicializamos un contador a cero
+        int contador = 0; //Inicializamos un contador a cero
         NodoLista *aux = cabeza; //Puntero auxiliar apunta a la cabeza
 
-        //Avanzamos en la lista hasta la posición anterior a la indicada
-        while(contador < pos - 1)
+        //Avanzamos en la lista hasta la posición indicada
+        while(contador < pos)
         {
             aux = aux->siguiente; //Avanzamos el puntero al siguiente nodo
             contador++;           //Incrementamos el contador
         }
 
-        //El nodo apuntado por aux apuntará al siguiente de la posición a eliminar
-        aux->siguiente = aux->siguiente->siguiente;
-
-        aux->siguiente = nodo; //El nodo apuntado por aux apunta al nuevo nodo
+        aux->valor = v; //Cambiamos el valor del nodo por la nueva venta
     }
-
-    longitud--; //Decrementamos la longitud
 }
 
-//Borra el nodo en la posición indicada (0 - longitud-1)
-void Lista::borrar(int pos)
+//Realiza una copia de la lista pasada como argumento (arreglar errores de asignación)
+void Lista::copiar(Lista& l)
 {
-    //Error si no es una posición valida (y != -1)
-    if(pos < 0 || pos >= longitud)
-    {
-        cout << "Error: posicion fuera de los limites de la lista";
-    }
+    vaciar(); //Vaciamos la lista
 
-    //Si es la primera posición de la lista
-    else if(pos == 0)
-    {
-        insertarNodoInicio(v);
-    }
+    NodoLista *aux = l.cabeza; //Puntero auxiliar a la cabeza de l
 
-    //Si es la última posición de la lista
-    else if(pos == longitud - 1)
+    //Para cada elemento de la lista l
+    while(aux != NULL)
     {
-        insertarNodoFin(v);
+        insertar(aux->valor); //Lo insertamos al final de la lista
+        aux = aux->siguiente; //Siguiente nodo
     }
-
-    //Si es una posición intermedia
-    else
-    {
-        insertarNodoIntermedio(v, pos);
-    }
-
-    longitud++; //Incrementamos la longitud
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -283,33 +206,43 @@ void Lista::borrar(int pos)
 //Devuelve el elemento en la posición indicada
 Venta Lista::obtener(int pos)
 {
-    int contador = 0; //Inicializamos un contador a cero
-    NodoLista *aux = cabeza; //Puntero auxiliar apunta a la cabeza
-
-    //Avanzamos en la lista hasta la posición indicada
-    while(contador < pos - 1)
+    //Validamos que la posición sea válida
+    if (pos < 0 || pos >= longitud)
     {
-        aux = aux->siguiente; //Avanzamos el puntero al siguiente nodo
-        contador++;           //Incrementamos el contador
+        cout << "Error: Posicion fuera de los limites de la lista." << endl;
+        return Venta(); //Devuelve una venta vacía por seguridad
     }
 
-    return aux->valor; //Devolvemos el valor del nodo apuntado por aux
+    else
+    {
+        int contador = 0; //Inicializamos un contador a cero
+        NodoLista *aux = cabeza; //Puntero auxiliar apunta a la cabeza
+
+        //Avanzamos en la lista hasta la posición indicada
+        while(contador < pos)
+        {
+            aux = aux->siguiente; //Avanzamos el puntero al siguiente nodo
+            contador++;           //Incrementamos el contador
+        }
+
+        return aux->valor; //Devolvemos el valor del nodo apuntado por aux
+    }
 }
 
 //-----------------------------------------------------------------------------------------------//
 
-//Devuelve la posición de la primera aparición del elemento (-1 si no lo encuentra)
-int Lista::buscar(Venta v)
+//Devuelve la posición de la primera aparición de la Venta con ese id (-1 si no lo encuentra)
+int Lista::buscar(string id)
 {
     bool encontrado = false; //Inicializamos encontrado a False
     int contador = 0;         //Inicializamos un contador a cero
     NodoLista *aux = cabeza; //Puntero auxiliar apunta a la cabeza
 
     //Avanzamos el puntero auxiliar hasta encontrar el elemento o llegar al final de la lista
-    while(!encontrado && aux->siguiente != NULL)
+    while(!encontrado && aux != NULL)
     {
         //Si lo encontramos
-        if(aux->valor.id_venta == v.id_venta)
+        if(aux->valor.id_venta == id)
         {
             encontrado = true;
         }
@@ -333,4 +266,77 @@ int Lista::buscar(Venta v)
     {
         return -1; //Devolvemos -1
     }
+}
+
+//Devuelve True si la Venta con ese id está en la lista
+bool Lista::estaEnLista(string id)
+{
+    bool encontrado = false; //Inicializamos encontrado a False
+    NodoLista *aux = cabeza; //Puntero auxiliar apunta a la cabeza
+
+    //Avanzamos el puntero auxiliar hasta encontrar el elemento o llegar al final de la lista
+    while(!encontrado && aux != NULL)
+    {
+        //Si lo encontramos
+        if(aux->valor.id_venta == id)
+        {
+            encontrado = true;
+        }
+
+        //Si no
+        else
+        {
+            aux = aux->siguiente; //Avanzamos el puntero al siguiente nodo
+        }
+    }
+
+    return encontrado; //Se devuelve True si se ha encontrado la venta
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+//Añade la lista pasada como argumento al final de la lista
+void Lista::concatenar(Lista& l)
+{
+    NodoLista *aux; //Puntero auxiliar para recorrer l
+    Lista copia;
+    copia.copiar(l);
+    aux = copia.cabeza; //Puntero auxiliar a la cabeza de la copia
+
+    //Para cada elemento de la lista l
+    while(aux != NULL)
+    {
+        insertar(aux->valor); //Lo insertamos al final de la lista
+        aux = aux->siguiente; //Siguiente nodo
+    }
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+//Muestra la lista por pantalla en formato de tabla
+void Lista::mostrar()
+{
+    //Imprimimos la cabecera de la tabla
+    cout << "+---------------------------------------------------------------------------+" << endl
+         << "| ID Centro | ID Venta | Codigo Pizza |  Categoria  | Unidades |   Fecha    |" << endl
+         << "+---------------------------------------------------------------------------+" << endl;
+
+    //Si no está vacía, imprimimos cada elemento de la Lista
+    if(!esVacia())
+    {
+        for (NodoLista* aux = cabeza; aux != NULL; aux = aux->siguiente)
+        {
+            Venta v = aux->valor; //Venta a imprimir
+            mostrarFila(v);       //Imprimimos cada venta
+            cout << endl;
+        }
+
+    }
+
+    //Si está vacía, imprimimos una fila vacía
+    else cout << "|           |          |              |             |          |            |" << endl;
+
+    //Imprimimos el final de la tabla
+    cout << "+---------------------------------------------------------------------------+" << endl
+         << "Longitud: " << getLongitud() << endl;;
 }

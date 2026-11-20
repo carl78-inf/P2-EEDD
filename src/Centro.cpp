@@ -114,10 +114,12 @@ string localidadToString(Localidad localidad)
 
 
 //Muestra el Centro por pantalla con su información y la de todas sus ventas asociadas
-void mostrar(Centro c)
+void mostrarCentro(Centro& c)
 {
-    cout << left << "| " << c.id_centro     //ID del pedido
-         << " | " << setw(7) << c.localidad //Localidad
-         << " |";
-    //c.ventas.mostrar();
+    cout << "+--------------------------+----------+-----------+-------------------------+" << endl
+         << "| IDENTIFICADOR DEL CENTRO | " << setw(8) << c.id_centro    //ID del pedido
+         << " | LOCALIDAD | " << setw(23) << localidadToString(c.localidad) << " |" << endl //Localidad
+         << "+--------------------------+----------+-----------+-------------------------+" << endl
+         << "|                              VENTAS ASOCIADAS                             |" << endl;
+    c.ventas.mostrar();
 }

@@ -1,6 +1,7 @@
 #ifndef NAPOLI_H
 #define NAPOLI_H
 
+#include <Arbol.h>
 
 class napoli
 {

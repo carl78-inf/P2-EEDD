@@ -25,8 +25,9 @@ Venta generarVentaRandom(string id)
         v.id_venta = id; //Si le pasamos un id, se lo asignamos al pedido
     }
 
-    int num = rand() % 8;
-    v.cod_pizza = "NP0" + ('1' + num); //Código de pizza aleatorio
+    int num = rand() % 8 + 1;
+    v.cod_pizza = "NP0";
+    v.cod_pizza += ('0' + num); //Código de pizza aleatorio
 
     //Categoría correspondiente según el código de pizza
     switch(num)
@@ -57,9 +58,9 @@ Venta generarVentaRandom(string id)
             break;
     }
 
-    v.unidades = rand() % 19 + 1; //Número de pizzas aleatorio entre 1 y 20
+    v.unidades = rand() % 20 + 1; //Número de pizzas aleatorio entre 1 y 20
 
-    int mes, dias_en_mes, dia;
+    int mes, dias_en_mes, dia; //Variables para mes, días en el mes y día concreto
 
     mes = 1 + rand() % 12; //Mes aleatorio
 
@@ -88,12 +89,6 @@ Venta generarVentaRandom(string id)
     return v;
 }
 
-//Compara el ID de dos ventas y devuelve True si son iguales
-bool mismoID(Venta v1, Venta v2)
-{
-    return v1.id_venta == v2.id_venta;
-}
-
 //Pasa el tipo enumerado CategoriaPizza a string
 string categoriaPizzaToString(CategoriaPizza categoria)
 {
@@ -119,13 +114,14 @@ string categoriaPizzaToString(CategoriaPizza categoria)
 }
 
 //Muestra la Venta por pantalla en formato de fila de una tabla para la lista
-void mostrar(Venta v)
+void mostrarFila(Venta v)
 {
-    cout << left << "| " << v.id_centro                             //ID del centro
-         << " | " << setw(7) << v.id_venta                          //ID de la venta
-         << " | " << setw(13) << v.cod_pizza                        //Código de la pizza
-         << " | " << setw(7) << categoriaPizzaToString(v.categoria) //Categoría
-         << " | " << setw(5) << v.unidades                          //Numero de pizzas incluidas
-         << " | " << setw(20) << v.fecha_venta                      //Fecha de la venta
+    cout << left
+         << "| " << setw(9) << v.id_centro                           //ID del centro
+         << " | " << setw(8) << v.id_venta                           //ID de la venta
+         << " | " << setw(12) << v.cod_pizza                         //Código de la pizza
+         << " | " << setw(11) << categoriaPizzaToString(v.categoria) //Categoría
+         << " | " << setw(8) << v.unidades                           //Numero de pizzas incluidas
+         << " | " << v.fecha_venta                                   //Fecha de la venta
          << " |";
 }

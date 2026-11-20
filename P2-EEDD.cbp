@@ -34,20 +34,16 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-<<<<<<< Updated upstream
-=======
-		<Unit filename="P2-EEDD.depend" />
 		<Unit filename="P2-EEDD.layout" />
 		<Unit filename="README.md" />
 		<Unit filename="bin/Debug/P2-EEDD" />
->>>>>>> Stashed changes
-		<Unit filename="include/ArbolBinarioBusqueda.h" />
+		<Unit filename="include/Arbol.h" />
 		<Unit filename="include/Centro.h" />
 		<Unit filename="include/Lista.h" />
 		<Unit filename="include/Venta.h" />
 		<Unit filename="include/napoli.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/ArbolBinarioBusqueda.cpp" />
+		<Unit filename="src/Arbol.cpp" />
 		<Unit filename="src/Centro.cpp" />
 		<Unit filename="src/Lista.cpp" />
 		<Unit filename="src/Venta.cpp" />

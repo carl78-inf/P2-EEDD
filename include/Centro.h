@@ -3,13 +3,6 @@
 
 #include <Lista.h>
 
-#include <string>
-#include <iostream>
-#include <string.h>
-#include <ctime>
-#include <stdlib.h>
-#include <iomanip>
-
 using namespace std;
 
 //Definición de los tipos enumerados que utilizará Venta
@@ -31,6 +24,6 @@ Centro generarCentroRandom(int id = NULL); //Genera un centro aleatorio (lista d
 
 bool mismoID(Centro c1, Centro c2);        //Compara el ID de dos centros y devuelve True si son iguales
 
-void mostrar(Centro c);                    //Muestra el centro por pantalla
+void mostrarCentro(Centro& c);             //Muestra el centro por pantalla
 
 #endif // CENTRO_H
