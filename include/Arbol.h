@@ -22,33 +22,38 @@ class NodoArbol
         }
 };
 
-
+//Clase Árbol Binario de Búsqueda
 class Arbol
 {
     private:
         NodoArbol *raiz; //Raíz del arbol
-        int altura;      //Altura
+        int nodos;       //Número de nodos del árbol
+
+        //Métodos auxiliares para eliminar un nodo y mostrar por pantalla
+        void eliminarNodo(NodoArbol *nodo, NodoArbol *padre, bool derecha);
+        void mostrarNodoInOrden(NodoArbol *nodo);
+
+        //Método auxiliar para eliminar el árbol
+        void Podar(NodoArbol *nodo);
 
 
     public:
-        Arbol();
+        Arbol();  //Constructor
+        ~Arbol(); //Destructor
 
-       /* ~Arbol() { podar(raiz); }
-        void buscarNodo (char v);
-        void insertarNodo (char v);
-        void borrarNodo (char v);
-        bool esVacio(pNodo nodo) { return r==NULL; }
-        bool esHoja(pNodo nodo) { return !nodo->derecho && !nodo>izquierdo; }
-        int numeroNodos();
-        int getAlturaArbol();
-        char getValorActual() { return actual->dato; }
-        void esRaiz() { actual = raiz; }
-        void inOrden(Nodo *nodo);
-        void preOrden(Nodo *nodo);
-        void postOrden(Nodo *nodo);*/
+        bool esVacio(); //Devuelve True si el Arbol es vacío
+        bool esHoja();  //Devuelve True si el Arbol es una hoja (no tiene hijos)
 
-    //lista vacía, añadir por la izquierda, resto (eliminar primero), eliminar último, obtener primero, último, comprobar si es vacía, lista unitaria
+        int getNodos(); //Devuelve el número de nodos en el Arbol
 
+        void insertar(Centro c);  //Inserta un centro en el Arbol de forma ordenada
+
+        void eliminar(int id);    //Elimina el centro con el identificador dado
+
+        Centro obtener(int id);   //Devuelve el centro con el identificador dado
+        bool estaEnArbol(int id); //Devuelve True si el identificador está en el Arbol
+
+        void mostrar(); //Muestra el Arbol por pantalla en formato de tabla (inorden)
 };
 
 #endif // ARBOL_H

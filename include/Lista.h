@@ -28,11 +28,6 @@ class Lista
         NodoLista *ultimo; //Puntero al último elemento
         int longitud;      //Longitud
 
-        //Métodos auxiliares para inserción y eliminación de nodos
-        void borrarNodoInicio();            //Borra el primer elemento de la Lista
-        void borrarNodoFin();               //Borra el último elemento de la Lista
-        void borrarNodoIntermedio(int pos); //Borra el elemento intermedio de la Lista en la posición indicada
-
     public:
         Lista();  //Constructor
         ~Lista(); //Destructor

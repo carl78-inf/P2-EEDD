@@ -89,6 +89,8 @@ Venta generarVentaRandom(string id)
     return v;
 }
 
+//-----------------------------------------------------------------------------------------------//
+
 //Pasa el tipo enumerado CategoriaPizza a string
 string categoriaPizzaToString(CategoriaPizza categoria)
 {
@@ -112,6 +114,8 @@ string categoriaPizzaToString(CategoriaPizza categoria)
     }
     return resultado;
 }
+
+//-----------------------------------------------------------------------------------------------//
 
 //Muestra la Venta por pantalla en formato de fila de una tabla para la lista
 void mostrarFila(Venta v)

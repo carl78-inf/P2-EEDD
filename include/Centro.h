@@ -18,12 +18,14 @@ struct Centro
     Lista ventas;        //Lista de ventas asociadas al centro (inicialmente vacía)
 };
 
-int generarIDCentroRandom();               //Genera un ID de centro aleatorio
+int generarIDCentroRandom();                   //Genera un ID de centro aleatorio
 
-Centro generarCentroRandom(int id = NULL); //Genera un centro aleatorio (lista de ventas vacía)
+Centro generarCentroRandom(int id = NULL);     //Genera un centro aleatorio (lista de ventas vacía)
 
-bool mismoID(Centro c1, Centro c2);        //Compara el ID de dos centros y devuelve True si son iguales
+bool mismoID(Centro c1, Centro c2);            //Compara el ID de dos centros y devuelve True si son iguales
 
-void mostrarCentro(Centro& c);             //Muestra el centro por pantalla
+string localidadToString(Localidad localidad); //Pasa del tipo enumerado Localidad a string
+
+void mostrarCentro(Centro& c);                 //Muestra el centro por pantalla
 
 #endif // CENTRO_H

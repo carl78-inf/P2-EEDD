@@ -31,11 +31,7 @@ Centro generarCentroRandom(int id)
     return c;
 }
 
-//Compara el ID de dos centros y devuelve True si son iguales
-bool mismoID(Centro c1, Centro c2)
-{
-    return c1.id_centro == c2.id_centro;
-}
+//-----------------------------------------------------------------------------------------------//
 
 //Pasa el tipo enumerado Localidad a string
 string localidadToString(Localidad localidad)
@@ -112,6 +108,7 @@ string localidadToString(Localidad localidad)
     return resultado;
 }
 
+//-----------------------------------------------------------------------------------------------//
 
 //Muestra el Centro por pantalla con su información y la de todas sus ventas asociadas
 void mostrarCentro(Centro& c)

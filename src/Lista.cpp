@@ -18,20 +18,22 @@ Lista::~Lista()
     {
         aux = cabeza;               //Nodo auxiliar apunta al primer nodo
         cabeza = cabeza->siguiente; //Cabeza apunta al siguiente
-        delete aux;                 //Eliminamos el nodo apuntado por auxiliar
+        delete(aux);                //Eliminamos el nodo apuntado por auxiliar
+        aux = NULL;                 //Puntero auxiliar a NULL
+
     }
 }
 
 //-----------------------------------------------------------------------------------------------//
 
-//Devuelve True si la Lista vacía
+//Devuelve True si la Lista es vacía
 bool Lista::esVacia()
 {
     return (cabeza == NULL)
         && (ultimo == NULL);
 }
 
-//Devuelve la longitu de la Lista
+//Devuelve la longitud de la Lista
 int Lista::getLongitud()
 {
     return longitud;
@@ -49,7 +51,7 @@ void Lista::insertar(Venta v, int pos)
     }
     else
     {
-        NodoLista *nuevo = new NodoLista(v); //Puntero a un nuevo nodo
+        NodoLista *nuevo = new NodoLista(v); //Puntero al nuevo nodo
 
         //Si está vacía
         if(esVacia())
@@ -338,5 +340,5 @@ void Lista::mostrar()
 
     //Imprimimos el final de la tabla
     cout << "+---------------------------------------------------------------------------+" << endl
-         << "Longitud: " << getLongitud() << endl;;
+         << "Longitud: " << getLongitud() << endl;
 }

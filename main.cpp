@@ -10,7 +10,7 @@ void pruebas()
     cout << "-----------------------------------" << endl;
     Venta v1, v2, v3, v4;
 
-    //Generamos 6 ventas aleatorias
+    //Generamos 4 ventas aleatorias
     v1 = generarVentaRandom();
     v2 = generarVentaRandom();
     v3 = generarVentaRandom();
@@ -164,13 +164,7 @@ void pruebas()
     l2.mostrar();
 
     cout << "\n+ Vaciamos la primera lista" << endl;
-    l2.eliminar();
-    l2.eliminar();
-    l2.eliminar();
-    l2.eliminar();
-    l2.eliminar();
-    l2.eliminar();
-    l2.eliminar();
+    l2.vaciar();
     l2.mostrar();
     l3.mostrar();
 
@@ -184,13 +178,153 @@ void pruebas()
 
     //Centro
     cout << "\n+ Creamos un centro" << endl;
-    Centro c1;
-    c1 = generarCentroRandom();
-    mostrarCentro(c1);
+    Centro c;
+    c = generarCentroRandom();
+    mostrarCentro(c);
 
     cout << "\n+ Asignamos ventas al centro" << endl;
-    c1.ventas.copiar(l);
-    mostrarCentro(c1);
+    c.ventas.copiar(l);
+    mostrarCentro(c);
+
+    /////////////////////////////////////////////////
+
+    cout << "\n\nPruebas de implementacion de arboles" << endl;
+    cout << "-----------------------------------" << endl;
+    Centro c1, c2, c3, c4, c5, c6;
+
+    //Generamos 6 centros aleatorios
+    c1 = generarCentroRandom(); c1.id_centro = 100;
+    c2 = generarCentroRandom(); c2.id_centro = 200;
+    c3 = generarCentroRandom(); c3.id_centro = 300;
+    c4 = generarCentroRandom(); c4.id_centro = 400;
+    c5 = generarCentroRandom(); c5.id_centro = 500;
+    c6 = generarCentroRandom(); c6.id_centro = 600;
+    Arbol a;
+
+    //Árbol vacío
+    cout << "\n+ Arbol vacio" << endl;
+    a.mostrar();
+
+    //Insertar
+    cout << "\n+ Insertamos en el Arbol en orden (se muestra inorden)" << endl;
+    cout << "  - Insertar -> " << c4.id_centro << endl;
+    a.insertar(c4);
+    a.mostrar();
+    cout << "\n  - Insertar -> " << c2.id_centro << endl;
+    a.insertar(c2);
+    a.mostrar();
+    cout << "\n  - Insertar -> " << c6.id_centro << endl;
+    a.insertar(c6);
+    a.mostrar();
+    cout << "\n  - Insertar -> " << c1.id_centro << endl;
+    a.insertar(c1);
+    a.mostrar();
+    cout << "\n  - Insertar -> " << c5.id_centro << endl;
+    a.insertar(c5);
+    a.mostrar();
+    cout << "\n  - Insertar -> " << c3.id_centro << endl;
+    a.insertar(c3);
+    a.mostrar();
+    cout << "\nNos queda un arbol de la siguiente forma: " << endl
+         << "\n400" << endl
+         << " |- 200" << endl
+         << " |   |- 100" << endl
+         << " |   |- 300" << endl
+         << " |" << endl
+         << " |- 600" << endl
+         << " |   |- 500" << endl
+         << " |   |- NULL" << endl
+         << "(Se muestra en preorden)" << endl;
+
+    //Eliminar
+    cout << "\n+ Eliminamos del Arbol por ID" << endl;
+
+    cout << "  - Eliminar -> 500 (Hoja)" << endl;
+    a.eliminar(500);
+    a.mostrar();
+    cout << "\n400" << endl
+         << " |- 200" << endl
+         << " |   |- 100" << endl
+         << " |   |- 300" << endl
+         << " |" << endl
+         << " |- 600" << endl
+         << "(Se muestra en preorden)" << endl;
+
+    cout << "\n  - Eliminar -> 200 (2 Hijos)" << endl;
+    a.eliminar(200);
+    a.mostrar();
+    cout << "\n400" << endl
+         << " |- 100" << endl
+         << " |   |- NULL" << endl
+         << " |   |- 300" << endl
+         << " |" << endl
+         << " |- 600" << endl
+         << "(Se muestra en preorden)" << endl;
+
+    cout << "\n  - Eliminar -> 100 (1 Hijo)" << endl;
+    a.eliminar(100);
+    a.mostrar();
+    cout << "\n400" << endl
+         << " |- 300" << endl
+         << " |- 600" << endl
+         << "(Se muestra en preorden)" << endl;
+
+    cout << "\n  - Eliminar -> 400 (Raiz + 2 Hijos)" << endl;
+    a.eliminar(400);
+    a.mostrar();
+    cout << "\n300" << endl
+         << " |- NULL" << endl
+         << " |- 600" << endl
+         << "(Se muestra en preorden)" << endl;
+
+    cout << "\n  - Eliminar -> 300 (Raiz + 1 Hijo)" << endl;
+    a.eliminar(300);
+    a.mostrar();
+    cout << "\n600" << endl
+         << " |- NULL" << endl
+         << " |- NULL" << endl
+         << "(Se muestra en preorden)" << endl;
+
+    cout << "\n  - Eliminar -> 600 (Raiz + Hoja)" << endl;
+    a.eliminar(600);
+    a.mostrar();
+
+    cout << "\n  - Eliminar -> 900 (No existe)" << endl;
+    a.eliminar(900);
+    a.mostrar();
+
+    //EstaEnArbol
+    cout << "\n+ Llenamos el Arbol y comprobamos si estan o no distintos identificadores" << endl;
+    c1 = generarCentroRandom(); c1.id_centro = 435;
+    c2 = generarCentroRandom(); c2.id_centro = 934;
+    c3 = generarCentroRandom(); c3.id_centro = 300;
+    c4 = generarCentroRandom(); c4.id_centro = 543;
+    c5 = generarCentroRandom(); c5.id_centro = 527;
+    c6 = generarCentroRandom(); c6.id_centro = 112;
+    a.insertar(c1);
+    a.insertar(c2);
+    a.insertar(c3);
+    a.insertar(c4);
+    a.insertar(c5);
+    a.insertar(c6);
+    a.mostrar();
+
+    cout << "\n  - 435: " << (a.estaEnArbol(435)? "True": "False") << endl;
+    cout << "  - 934: " << (a.estaEnArbol(934)? "True": "False") << endl;
+    cout << "  - 300: " << (a.estaEnArbol(300)? "True": "False") << endl;
+    cout << "  - 543: " << (a.estaEnArbol(543)? "True": "False") << endl;
+    cout << "  - 527: " << (a.estaEnArbol(527)? "True": "False") << endl;
+    cout << "  - 112: " << (a.estaEnArbol(112)? "True": "False") << endl;
+    cout << "  - 222: " << (a.estaEnArbol(222)? "True": "False") << endl;
+
+    //Obtener
+    cout << "\n+ Obtenemos todos los elementos del Arbol (ej: Localidad)" << endl;
+    cout << "  - 435: " << localidadToString(a.obtener(435).localidad) << endl;
+    cout << "  - 934: " << localidadToString(a.obtener(934).localidad) << endl;
+    cout << "  - 300: " << localidadToString(a.obtener(300).localidad) << endl;
+    cout << "  - 543: " << localidadToString(a.obtener(543).localidad) << endl;
+    cout << "  - 527: " << localidadToString(a.obtener(527).localidad) << endl;
+    cout << "  - 112: " << localidadToString(a.obtener(112).localidad) << endl;
 }
 
 int main()
