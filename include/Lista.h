@@ -29,10 +29,8 @@ class Lista
         int longitud;      //Longitud
 
     public:
-        Lista();                          //Constructor
-        Lista(const Lista& l);            //Constructor de copia (copia profunda)
-        Lista& operator=(const Lista& l); //Operador de asignacion (copia profunda)
-        ~Lista();                         //Destructor
+        Lista();  //Constructor
+        ~Lista(); //Destructor
 
         bool esVacia();    //Devuelve True si la Lista es vacía
         int getLongitud(); //Devuelve la longitud de la Lista
@@ -45,10 +43,10 @@ class Lista
 
         Venta obtener(int pos);               //Obtene el elemento en la posición indicada (0 - longitud-1)
 
-        int buscar(string id);                //Devuelve la posición de la primera aparición del elemento (-1 si no lo encuentra)
+        bool buscar(string id, Venta& v);     //Devuelve True y la venta con el id buscado en v si se ha encontrado (False si no)
         bool estaEnLista(string id);          //Devuelve True si la venta está en la lista
 
-        void concatenar(Lista& l);             //Añade la lista pasada como argumento al final de la lista
+        void concatenar(Lista& l);            //Añade la lista pasada como argumento al final de la lista
 
         void mostrar();                       //Mostrar la lista por pantalla en formato de tabla
 };

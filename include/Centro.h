@@ -22,9 +22,9 @@ int generarIDCentroRandom();                   //Genera un ID de centro aleatori
 
 Centro generarCentroRandom(int id = NULL);     //Genera un centro aleatorio (lista de ventas vacía)
 
-bool mismoID(Centro c1, Centro c2);            //Compara el ID de dos centros y devuelve True si son iguales
-
 string localidadToString(Localidad localidad); //Pasa del tipo enumerado Localidad a string
+
+void copiarCentro(Centro& c1, Centro& c2);     //Copia toda la información del centro c1 en c2
 
 void mostrarCentro(Centro& c);                 //Muestra el centro por pantalla
 

@@ -23,12 +23,12 @@ struct Venta
     string fecha_venta;       //Fecha en que se realizó la venta (formato DD-MM-2026)
 };
 
-string generarIDVentaRandom();            //Genera un ID de centro aleatorio
+string generarIDVentaRandom();                           //Genera un ID de centro aleatorio
 
-Venta generarVentaRandom(string id = ""); //Genera una venta aleatoria (con el centro sin asignar)
+Venta generarVentaRandom(string id = "");                //Genera una venta aleatoria (con el centro sin asignar)
 
 string categoriaPizzaToString(CategoriaPizza categoria); //Pasa del tipo enumerado CategoriaPizza a string
 
-void mostrarFila(Venta v);                //Muestra la información de la venta por pantalla en formato fila de tabla
+void mostrarFila(Venta v);                               //Muestra la información de la venta por pantalla en formato fila de tabla
 
 #endif // VENTA_H

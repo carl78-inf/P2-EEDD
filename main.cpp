@@ -115,8 +115,9 @@ void pruebas()
     cout << "  - " << v1.id_venta << ": " << (l.estaEnLista(v1.id_venta)? "True": "False") << endl;
 
     //Buscar
+    Venta v_test;
     cout << "\n+ Buscamos " << v1.id_venta << " en una lista vacia" << endl;
-    cout << v1.id_venta << " en la posicion: " << (l.buscar(v1.id_venta) == -1 ? "No encontrado": to_string(l.buscar(v1.id_venta))) << endl;
+    cout << v1.id_venta << ": " << (l.buscar(v1.id_venta, v_test) ? "No encontrado": v_test.id_venta) << endl;
 
     cout << "\n+ Buscamos " << v1.id_venta << " en una lista llena" << endl;
     l.insertar(v7);
@@ -125,10 +126,10 @@ void pruebas()
     l.insertar(v1);
     l.insertar(v4);
     l.mostrar();
-    cout << v1.id_venta << " en la posicion: " << (l.buscar(v1.id_venta) == -1 ? "No encontrado": to_string(l.buscar(v1.id_venta))) << endl;
+    cout << v1.id_venta << ": " << (l.buscar(v1.id_venta, v_test) ? "No encontrado": v_test.id_venta) << endl;
 
     cout << "\n+ Buscamos " << v3.id_venta << " en la lista llena" << endl;
-    cout << v3.id_venta << " en la posicion: " << (l.buscar(v3.id_venta) == -1 ? "No encontrado": to_string(l.buscar(v3.id_venta))) << endl;
+    cout << v3.id_venta << ": " << (l.buscar(v3.id_venta, v_test) ? "No encontrado": v_test.id_venta) << endl;
 
     //Concatenar
     cout << "\n+ Creamos dos listas vacias" << endl;
@@ -317,14 +318,16 @@ void pruebas()
     cout << "  - 112: " << (a.estaEnArbol(112)? "True": "False") << endl;
     cout << "  - 222: " << (a.estaEnArbol(222)? "True": "False") << endl;
 
-    //Obtener
+    //Buscar
+    Centro c_test;
     cout << "\n+ Obtenemos todos los elementos del Arbol (ej: Localidad)" << endl;
-    cout << "  - 435: " << localidadToString(a.obtener(435).localidad) << endl;
-    cout << "  - 934: " << localidadToString(a.obtener(934).localidad) << endl;
-    cout << "  - 300: " << localidadToString(a.obtener(300).localidad) << endl;
-    cout << "  - 543: " << localidadToString(a.obtener(543).localidad) << endl;
-    cout << "  - 527: " << localidadToString(a.obtener(527).localidad) << endl;
-    cout << "  - 112: " << localidadToString(a.obtener(112).localidad) << endl;
+    cout << "  - 435: " << (a.buscar(435, c_test)? localidadToString(c_test.localidad) : "No encontrado") << endl;
+    cout << "  - 934: " << (a.buscar(934, c_test)? localidadToString(c_test.localidad) : "No encontrado") << endl;
+    cout << "  - 300: " << (a.buscar(300, c_test)? localidadToString(c_test.localidad) : "No encontrado") << endl;
+    cout << "  - 543: " << (a.buscar(543, c_test)? localidadToString(c_test.localidad) : "No encontrado") << endl;
+    cout << "  - 527: " << (a.buscar(527, c_test)? localidadToString(c_test.localidad) : "No encontrado") << endl;
+    cout << "  - 112: " << (a.buscar(112, c_test)? localidadToString(c_test.localidad) : "No encontrado") << endl;
+    cout << "  - 222: " << (a.buscar(222, c_test)? localidadToString(c_test.localidad) : "No encontrado") << endl;
 }
 
 int main()
@@ -366,7 +369,7 @@ int main()
             break;
 
         case 2:
-            // Sin implementar
+            app.borrarCentro();
             break;
 
         case 3:
@@ -378,32 +381,29 @@ int main()
             break;
 
         case 5:
-            // Sin implementar
+            app.extraerVenta();
             break;
 
         case 6:
-            // Sin implementar
+            app.trasladarVenta();
             break;
 
         case 7:
-            // Sin implementar
+            app.mostrarEstadisticas();
             break;
 
         case 8:
-            // Sin implementar
+            app.generarYDistribuirVentas();
             break;
 
-        //Salir
         case 0:
             cout << "Saliendo" << endl;
             break;
 
-        //Salir
         case 99:
             pruebas();
             break;
 
-        //Caso base para opción no válida
         default:
             cout << "Opcion no valida." << endl;
         }
