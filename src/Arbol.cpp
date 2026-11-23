@@ -452,6 +452,34 @@ bool Arbol::buscarVenta(string id, Venta& v, int& id_centro, Localidad& localida
 
 //-----------------------------------------------------------------------------------------------//
 
+//Inserta una venta al final de la lista del centro indicado en v.id_centro
+bool Arbol::insertarVenta(Venta v)
+{
+    NodoArbol *aux = raiz; //Puntero auxiliar a la raiz del arbol
+
+    //Buscamos el nodo del centro de la venta
+    while(aux != NULL)
+    {
+        if(aux->valor.id_centro == v.id_centro)
+        {
+            aux->valor.ventas.insertar(v); //Se inserta al final de la lista
+            return true;
+        }
+        else if(v.id_centro < aux->valor.id_centro)
+        {
+            aux = aux->izquierda;
+        }
+        else
+        {
+            aux = aux->derecha;
+        }
+    }
+
+    return false; //No existe ningun centro con ese identificador
+}
+
+//-----------------------------------------------------------------------------------------------//
+
 //Muestra por pantalla las filas de la tabla correspondientes al nodo (en inorden)
 void Arbol::mostrarNodoInOrden(NodoArbol *nodo)
 {
@@ -496,4 +524,40 @@ void Arbol::mostrar()
     //Imprimimos el final de la tabla
     cout << "+---------------------------------------------+" << endl
          << "Centros: " << getNodos() << endl;
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+//Muestra por pantalla los datos de los nodos del subarbol (en inorden)
+void Arbol::mostrarResumenRec(NodoArbol *nodo)
+{
+    //Si tiene hijo izquierdo
+    if(nodo->izquierda != NULL)
+    {
+        mostrarResumenRec(nodo->izquierda);
+    }
+
+    //Mostramos el identificador, la localidad y el numero de ventas
+    cout << "ID: " << nodo->valor.id_centro
+         << " Localidad: " << setw(22) << localidadToString(nodo->valor.localidad)
+         << " Num ventas: " << nodo->valor.ventas.getLongitud() << endl;
+
+    //Si tiene hijo derecho
+    if(nodo->derecha != NULL)
+    {
+        mostrarResumenRec(nodo->derecha);
+    }
+}
+
+//Muestra un resumen de todos los centros del arbol (en inorden)
+void Arbol::mostrarResumen()
+{
+    if(esVacio())
+    {
+        cout << "El arbol esta vacio." << endl;
+    }
+    else
+    {
+        mostrarResumenRec(raiz);
+    }
 }

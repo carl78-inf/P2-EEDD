@@ -3,6 +3,10 @@
 
 #include <Arbol.h>
 
+//Constantes principales de la simulacion
+#define N_CENTROS 10
+#define N_VENTAS 30
+
 //Numero de localidades disponibles (enum Localidad de Centro.h)
 #define N_LOCALIDADES 21
 
@@ -13,6 +17,8 @@ class napoli
 
         bool leerEntero(int& valor); //Lee un entero por teclado controlando errores
         int pedirLocalidad();        //Muestra las localidades y devuelve la elegida (-1 si error)
+
+        void crearDatosIniciales();  //Crea los centros y las ventas del comienzo
 
     public:
         napoli();

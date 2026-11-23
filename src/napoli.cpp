@@ -3,13 +3,90 @@
 //Constructor
 napoli::napoli()
 {
-    //El ABB se crea vacio en el constructor de Arbol
+    //Al empezar se crean los centros y las ventas iniciales
+    crearDatosIniciales();
 }
 
 //Destructor
 napoli::~napoli()
 {
     //El destructor de Arbol libera todos los nodos y sus listas de ventas
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+//Crea los centros y las ventas iniciales al comenzar el programa
+void napoli::crearDatosIniciales()
+{
+    int ids[N_CENTROS]; //Identificadores de los centros creados
+    bool localidad_usada[N_LOCALIDADES] = {false}; //Localidades ya elegidas
+    Lista nuevas; //Ventas generadas antes de distribuirlas
+
+    cout << "Creando el ABB con " << N_CENTROS << " centros:" << endl;
+
+    //Creamos los centros con identificadores y localidades distintas
+    for(int i = 0; i < N_CENTROS; i++)
+    {
+        int id;
+        int localidad;
+
+        //Generamos un identificador que no exista ya en el arbol
+        do
+        {
+            id = rand() % 900 + 100;
+        } while(centros.estaEnArbol(id));
+
+        //Generamos una localidad que no se haya usado todavia
+        do
+        {
+            localidad = rand() % N_LOCALIDADES;
+        } while(localidad_usada[localidad]);
+
+        localidad_usada[localidad] = true;
+
+        //Creamos el centro con su lista de ventas vacia
+        Centro c;
+        c.id_centro = id;
+        c.localidad = (Localidad)localidad;
+        centros.insertar(c);
+
+        ids[i] = id; //Guardamos el identificador para las ventas
+    }
+
+    cout << "Arbol inicial:" << endl;
+    centros.mostrarResumen();
+
+    //Generamos las ventas, cada una asignada a un centro existente
+    for(int i = 0; i < N_VENTAS; i++)
+    {
+        Venta v = generarVentaRandom();
+
+        v.id_centro = ids[rand() % N_CENTROS]; //Centro que existe en el ABB
+
+        //Si el identificador de la venta ya ha salido, generamos otro
+        while(nuevas.estaEnLista(v.id_venta))
+        {
+            v.id_venta = generarIDVentaRandom();
+        }
+
+        nuevas.insertar(v);
+    }
+
+    cout << "\nVentas nuevas:" << endl;
+    nuevas.mostrar();
+
+    cout << "\nPulse Enter para distribuir las ventas" << endl;
+    cin.get();
+
+    //Distribuimos cada venta al final de la lista de su centro
+    for(int i = 0; i < nuevas.getLongitud(); i++)
+    {
+        Venta v = nuevas.obtener(i);
+        centros.insertarVenta(v);
+    }
+
+    cout << "Ventas distribuidas. Estado del arbol:" << endl;
+    centros.mostrarResumen();
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -46,7 +123,7 @@ int napoli::pedirLocalidad()
 {
     int opcion;
 
-    cout << "\nLocalidades disponibles:" << endl;
+    cout << endl << "Localidades disponibles:" << endl;
 
     //Mostramos las 21 localidades numeradas
     for(int i = 1; i <= N_LOCALIDADES; i++)
@@ -106,7 +183,7 @@ void napoli::insertarCentro()
 
     centros.insertar(c); //Se inserta ordenado por id_centro
 
-    cout << "\nCentro insertado correctamente:" << endl;
+    cout << endl << "Centro insertado correctamente:" << endl;
     mostrarCentro(c);
 }
 
@@ -153,7 +230,7 @@ void napoli::buscarVenta()
     }
 
     //Mostramos los datos de la venta y el centro al que pertenece
-    cout << "\nVenta encontrada:" << endl;
+    cout << endl << "Venta encontrada:" << endl;
     cout << "CENTRO " << id_centro << " - " << localidadToString(localidad) << endl;
     cout << "+---------------------------------------------------------------------------+" << endl
          << "| ID Centro | ID Venta | Codigo Pizza |  Categoria  | Unidades |   Fecha    |" << endl
