@@ -118,5 +118,14 @@ void mostrarCentro(Centro& c)
          << " | LOCALIDAD | " << setw(23) << localidadToString(c.localidad) << " |" << endl //Localidad
          << "+--------------------------+----------+-----------+-------------------------+" << endl
          << "|                              VENTAS ASOCIADAS                             |" << endl;
-    c.ventas.mostrar();
+
+    //Si la lista esta vacia se indica expresamente
+    if(c.ventas.esVacia())
+    {
+        cout << "El centro no tiene ventas registradas." << endl;
+    }
+    else
+    {
+        c.ventas.mostrar();
+    }
 }

@@ -72,10 +72,10 @@ void napoli::crearDatosIniciales()
         nuevas.insertar(v);
     }
 
-    cout << "\nVentas nuevas:" << endl;
+    cout << endl << "Ventas nuevas:" << endl;
     nuevas.mostrar();
 
-    cout << "\nPulse Enter para distribuir las ventas" << endl;
+    cout << endl << "Pulse Enter para distribuir las ventas" << endl;
     cin.get();
 
     //Distribuimos cada venta al final de la lista de su centro
@@ -202,11 +202,16 @@ void napoli::mostrarVentasCentro()
         return;
     }
 
-    //El Arbol busca el centro y muestra sus ventas (devuelve False si no existe)
-    if(!centros.mostrarVentasCentro(id))
+    //Si el centro no existe, informamos
+    if(!centros.estaEnArbol(id))
     {
         cout << "Error: no existe ningun centro con el identificador " << id << "." << endl;
+        return;
     }
+
+    //Obtenemos el centro y mostramos su localidad y sus ventas
+    Centro c = centros.obtener(id);
+    mostrarCentro(c);
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -216,22 +221,23 @@ void napoli::buscarVenta()
 {
     string id;
     Venta v;
-    int id_centro;
-    Localidad localidad;
 
     cout << "ID de la venta (formato V12345): ";
     cin >> id;
 
     //Recorremos el ABB hasta encontrar la venta
-    if(!centros.buscarVenta(id, v, id_centro, localidad))
+    if(!centros.buscarVenta(id, v))
     {
         cout << "Error: no existe ninguna venta con el identificador " << id << "." << endl;
         return;
     }
 
+    //La propia venta guarda el id del centro al que pertenece
+    Centro c = centros.obtener(v.id_centro);
+
     //Mostramos los datos de la venta y el centro al que pertenece
     cout << endl << "Venta encontrada:" << endl;
-    cout << "CENTRO " << id_centro << " - " << localidadToString(localidad) << endl;
+    cout << "CENTRO " << c.id_centro << " - " << localidadToString(c.localidad) << endl;
     cout << "+---------------------------------------------------------------------------+" << endl
          << "| ID Centro | ID Venta | Codigo Pizza |  Categoria  | Unidades |   Fecha    |" << endl
          << "+---------------------------------------------------------------------------+" << endl;

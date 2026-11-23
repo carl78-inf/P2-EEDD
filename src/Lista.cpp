@@ -8,6 +8,44 @@ Lista::Lista()
     longitud = 0;  //Longitud a 0
 }
 
+//Constructor de copia: crea una lista nueva e independiente de la recibida
+Lista::Lista(const Lista& l)
+{
+    cabeza = NULL; //Puntero cabeza a NULL
+    ultimo = NULL; //Puntero ultimo a NULL
+    longitud = 0;  //Longitud a 0
+
+    NodoLista *aux = l.cabeza; //Puntero auxiliar a la cabeza de la lista recibida
+
+    //Copiamos cada venta al final de la nueva lista
+    while(aux != NULL)
+    {
+        insertar(aux->valor); //Insertamos una copia de la venta
+        aux = aux->siguiente; //Siguiente nodo
+    }
+}
+
+//Operador de asignacion: vacia la lista y copia los elementos de la recibida
+Lista& Lista::operator=(const Lista& l)
+{
+    //Evitamos el caso de asignar una lista a si misma
+    if(this != &l)
+    {
+        vaciar(); //Vaciamos la lista actual
+
+        NodoLista *aux = l.cabeza; //Puntero auxiliar a la cabeza de la lista recibida
+
+        //Copiamos cada venta al final de la lista
+        while(aux != NULL)
+        {
+            insertar(aux->valor); //Insertamos una copia de la venta
+            aux = aux->siguiente; //Siguiente nodo
+        }
+    }
+
+    return *this; //Devolvemos la lista actual
+}
+
 //Destructor
 Lista::~Lista()
 {

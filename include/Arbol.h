@@ -34,7 +34,7 @@ class Arbol
         void mostrarNodoInOrden(NodoArbol *nodo);
 
         //Método auxiliar para buscar una venta en todos los centros del Arbol
-        bool buscarVentaRec(NodoArbol *nodo, string id, Venta& v, int& id_centro, Localidad& localidad);
+        bool buscarVentaRec(NodoArbol *nodo, string id, Venta& v);
 
         //Método auxiliar para mostrar el resumen de los centros (inorden)
         void mostrarResumenRec(NodoArbol *nodo);
@@ -59,11 +59,8 @@ class Arbol
         Centro obtener(int id);   //Devuelve el centro con el identificador dado
         bool estaEnArbol(int id); //Devuelve True si el identificador está en el Arbol
 
-        //Muestra la localidad y las ventas del centro con ese identificador (False si no existe)
-        bool mostrarVentasCentro(int id);
-
-        //Devuelve True si encuentra la venta y sus datos (centro y localidad)
-        bool buscarVenta(string id, Venta& v, int& id_centro, Localidad& localidad);
+        //Devuelve True si encuentra la venta (el id de venta es unico)
+        bool buscarVenta(string id, Venta& v);
 
         bool insertarVenta(Venta v); //Inserta una venta al final de la lista de su centro
 

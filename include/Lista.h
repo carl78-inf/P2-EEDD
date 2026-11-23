@@ -29,8 +29,10 @@ class Lista
         int longitud;      //Longitud
 
     public:
-        Lista();  //Constructor
-        ~Lista(); //Destructor
+        Lista();                          //Constructor
+        Lista(const Lista& l);            //Constructor de copia (copia profunda)
+        Lista& operator=(const Lista& l); //Operador de asignacion (copia profunda)
+        ~Lista();                         //Destructor
 
         bool esVacia();    //Devuelve True si la Lista es vacía
         int getLongitud(); //Devuelve la longitud de la Lista
