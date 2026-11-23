@@ -29,9 +29,12 @@ class Arbol
         NodoArbol *raiz; //Raíz del arbol
         int nodos;       //Número de nodos del árbol
 
-        //Métodos auxiliares para eliminar un nodo y mostrar por pantalla
+        //Métodos auxiliares para eliminar un nodo, buscar una venta y mostrar por pantalla
         void eliminarNodo(NodoArbol *nodo, NodoArbol *padre, bool derecha);
         void mostrarNodoInOrden(NodoArbol *nodo);
+
+        //Método auxiliar para buscar una venta en todos los centros del Arbol
+        bool buscarVentaRec(NodoArbol *nodo, string id, Venta& v, int& id_centro, Localidad& localidad);
 
         //Método auxiliar para eliminar el árbol
         void Podar(NodoArbol *nodo);
@@ -52,6 +55,12 @@ class Arbol
 
         Centro obtener(int id);   //Devuelve el centro con el identificador dado
         bool estaEnArbol(int id); //Devuelve True si el identificador está en el Arbol
+
+        //Muestra la localidad y las ventas del centro con ese identificador (False si no existe)
+        bool mostrarVentasCentro(int id);
+
+        //Devuelve True si encuentra la venta y sus datos (centro y localidad)
+        bool buscarVenta(string id, Venta& v, int& id_centro, Localidad& localidad);
 
         void mostrar(); //Muestra el Arbol por pantalla en formato de tabla (inorden)
 };

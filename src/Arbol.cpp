@@ -355,6 +355,103 @@ bool Arbol::estaEnArbol(int id)
 
 //-----------------------------------------------------------------------------------------------//
 
+//Muestra la localidad y las ventas del centro con el identificador dado
+bool Arbol::mostrarVentasCentro(int id)
+{
+    NodoArbol *aux = raiz; //Puntero auxiliar a la raiz del arbol
+
+    //Buscamos el nodo del centro
+    while(aux != NULL)
+    {
+        if(aux->valor.id_centro == id)
+        {
+            break; //Centro encontrado
+        }
+        else if(id < aux->valor.id_centro)
+        {
+            aux = aux->izquierda;
+        }
+        else
+        {
+            aux = aux->derecha;
+        }
+    }
+
+    //Si no existe, devolvemos False
+    if(aux == NULL)
+    {
+        return false;
+    }
+
+    //Cabecera con el centro y su localidad
+    cout << "\nCENTRO " << aux->valor.id_centro << " - "
+         << localidadToString(aux->valor.localidad) << endl;
+
+    //Si la lista esta vacia se indica expresamente
+    if(aux->valor.ventas.esVacia())
+    {
+        cout << "El centro no tiene ventas registradas." << endl;
+        return true;
+    }
+
+    //Cabecera de la tabla de ventas
+    cout << "Venta | Pizza | Categoria | Unidades | Fecha" << endl;
+    cout << "------------------------------------------------" << endl;
+
+    //Mostramos las ventas en el orden en que se incorporaron
+    for(int i = 0; i < aux->valor.ventas.getLongitud(); i++)
+    {
+        Venta v = aux->valor.ventas.obtener(i);
+
+        cout << v.id_venta << " | " << v.cod_pizza << " | "
+             << categoriaPizzaToString(v.categoria) << " | "
+             << v.unidades << " | " << v.fecha_venta << endl;
+    }
+
+    return true;
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+//Busca una venta por su identificador en el subarbol que empieza en nodo (en inorden)
+bool Arbol::buscarVentaRec(NodoArbol *nodo, string id, Venta& v, int& id_centro, Localidad& localidad)
+{
+    //Si el subarbol esta vacio, no hay nada que buscar
+    if(nodo == NULL)
+    {
+        return false;
+    }
+
+    //Buscamos primero en el subarbol izquierdo
+    if(buscarVentaRec(nodo->izquierda, id, v, id_centro, localidad))
+    {
+        return true;
+    }
+
+    //Buscamos la venta en la lista del centro (sin modificar la lista)
+    int pos = nodo->valor.ventas.buscar(id);
+
+    //Si esta en este centro, guardamos la venta y los datos del centro
+    if(pos != -1)
+    {
+        v = nodo->valor.ventas.obtener(pos); //Venta encontrada
+        id_centro = nodo->valor.id_centro;    //Centro al que pertenece
+        localidad = nodo->valor.localidad;    //Localidad del centro
+        return true;
+    }
+
+    //Si no esta, buscamos en el subarbol derecho
+    return buscarVentaRec(nodo->derecha, id, v, id_centro, localidad);
+}
+
+//Devuelve True si encuentra la venta en algun centro del arbol
+bool Arbol::buscarVenta(string id, Venta& v, int& id_centro, Localidad& localidad)
+{
+    return buscarVentaRec(raiz, id, v, id_centro, localidad); //Empezamos por la raiz
+}
+
+//-----------------------------------------------------------------------------------------------//
+
 //Muestra por pantalla las filas de la tabla correspondientes al nodo (en inorden)
 void Arbol::mostrarNodoInOrden(NodoArbol *nodo)
 {

@@ -331,6 +331,8 @@ int main()
 {
     srand(time(NULL)); //Una vez en todo el programa para que funcione rand()
 
+    napoli app; //Centros de la cadena y opciones del menu
+
     int option; //Opción elegida
 
     do
@@ -360,8 +362,7 @@ int main()
         {
 
         case 1:
-            // Sin implementar
-
+            app.insertarCentro();
             break;
 
         case 2:
@@ -369,11 +370,11 @@ int main()
             break;
 
         case 3:
-            // Sin implementar
+            app.mostrarVentasCentro();
             break;
 
         case 4:
-            // Sin implementar
+            app.buscarVenta();
             break;
 
         case 5:
