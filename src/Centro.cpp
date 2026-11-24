@@ -111,6 +111,16 @@ defautl:
 
 //-----------------------------------------------------------------------------------------------//
 
+//Copia toda la información del centro c1 en c2
+void copiarCentro(Centro& c1, Centro& c2)
+{
+    c2.id_centro = c1.id_centro;
+    c2.localidad = c1.localidad;
+    c2.ventas.copiar(c1.ventas);
+}
+
+//-----------------------------------------------------------------------------------------------//
+
 //Muestra el Centro por pantalla con su información y la de todas sus ventas asociadas
 void mostrarCentro(Centro& c)
 {
@@ -123,7 +133,9 @@ void mostrarCentro(Centro& c)
     //Si la lista esta vacia se indica expresamente
     if(c.ventas.esVacia())
     {
-        cout << "El centro no tiene ventas registradas." << endl;
+        cout << "+---------------------------------------------------------------------------+" << endl
+             << "|                    El centro no tiene ventas registradas                  |" << endl
+             << "+---------------------------------------------------------------------------+" << endl;
     }
     else
     {

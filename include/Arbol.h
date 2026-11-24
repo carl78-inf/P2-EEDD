@@ -6,66 +6,64 @@
 //Clase NodoAB
 class NodoArbol
 {
-private:
-    Centro valor;         //Valor del elemento
-    NodoArbol *izquierda; //Puntero al Nodo hijo izquierdo
-    NodoArbol *derecha;   //Puntero al Nodo hijo derecho
-    friend class Arbol;
+    private:
+        Centro valor;         //Valor del elemento
+        NodoArbol *izquierda; //Puntero al Nodo hijo izquierdo
+        NodoArbol *derecha;   //Puntero al Nodo hijo derecho
+        friend class Arbol;
 
-public:
-    //Constructor con parámetros
-    NodoArbol(Centro v, NodoArbol *izq = NULL, NodoArbol *der = NULL)
-    {
-        valor = v;
-        izquierda = izq;
-        derecha = der;
-    }
+    public:
+        //Constructor con parámetros
+        NodoArbol(Centro v, NodoArbol *izq = NULL, NodoArbol *der = NULL)
+        {
+            valor = v;
+            izquierda = izq;
+            derecha = der;
+        }
 };
 
 //Clase Árbol Binario de Búsqueda
 class Arbol
 {
-private:
-    NodoArbol *raiz; //Raíz del arbol
-    int nodos;       //Número de nodos del árbol
+    private:
+        NodoArbol *raiz; //Raíz del arbol
+        int nodos;       //Número de nodos del árbol
 
-    //Métodos auxiliares para eliminar un nodo, buscar una venta y mostrar por pantalla
-    void eliminarNodo(NodoArbol *nodo, NodoArbol *padre, bool derecha);
-    void mostrarNodoInOrden(NodoArbol *nodo);
+        //Método auxiliar para eliminar el árbol
+        void Podar(NodoArbol *nodo);
 
-    //Método auxiliar para buscar una venta en todos los centros del Arbol
-    bool buscarVentaRec(NodoArbol *nodo, string id, Venta& v);
+        //Método auxiliar para obtener los IDs de un nodo (subarbol)
+        void getIDsNodo(NodoArbol *nodo, int ids[], int& indice);
 
-    //Método auxiliar para mostrar el resumen de los centros (inorden)
-    void mostrarResumenRec(NodoArbol *nodo);
+        //Métodos auxiliares para eliminar un nodo, buscar una venta y mostrar por pantalla
+        void eliminarNodo(NodoArbol *nodo, NodoArbol *padre, bool derecha);
+        bool buscarVentaNodo(NodoArbol *nodo, string id, Venta& v);
+        bool ventaEnNodo(NodoArbol *nodo, string id);
+        void mostrarNodoInOrden(NodoArbol *nodo);
 
-    //Método auxiliar para eliminar el árbol
-    void Podar(NodoArbol *nodo);
+    public:
+        Arbol();  //Constructor
+        ~Arbol(); //Destructor
 
+        bool esVacio(); //Devuelve True si el Arbol es vacío
+        bool esHoja();  //Devuelve True si el Arbol es una hoja (no tiene hijos)
 
-public:
-    Arbol();  //Constructor
-    ~Arbol(); //Destructor
+        int getNodos(); //Devuelve el número de nodos en el Arbol
 
-    bool esVacio(); //Devuelve True si el Arbol es vacío
-    bool esHoja();  //Devuelve True si el Arbol es una hoja (no tiene hijos)
+        void getIDs(int ids[]);          //Introduce todos los ID de los centros del Arbol en el array ids[]
 
-    int getNodos(); //Devuelve el número de nodos en el Arbol
+        void insertar(Centro& c);         //Inserta un centro en el Arbol de forma ordenada
+        void insertar(Venta v);           //Inserta una venta en el centro correspondiente del Arbol al final
 
-    void insertar(Centro c);  //Inserta un centro en el Arbol de forma ordenada
+        void eliminar(int id);            //Elimina el centro con el identificador dado
 
-    void eliminar(int id);    //Elimina el centro con el identificador dado
+        bool buscar(int id, Centro& c);   //Devuelve True y el centro con el id buscado en c si se ha encontrado (False si no se ha encontrado)
+        bool buscar(string id, Venta& v); //Devuelve True y la venta con el id buscado en v (False si no se ha encontrado)
 
-    Centro obtener(int id);   //Devuelve el centro con el identificador dado
-    bool estaEnArbol(int id); //Devuelve True si el identificador está en el Arbol
+        bool estaEnArbol(int id);         //Devuelve True si el centro con el identificador está en el Arbol
+        bool estaEnArbol(string id);      //Devuelve True si la venta con el identificador está en el Arbol
 
-    //Devuelve True si encuentra la venta (el id de venta es unico)
-    bool buscarVenta(string id, Venta& v);
-
-    bool insertarVenta(Venta v); //Inserta una venta al final de la lista de su centro
-
-    void mostrar();        //Muestra el Arbol por pantalla en formato de tabla (inorden)
-    void mostrarResumen(); //Muestra ID, localidad y numero de ventas de cada centro
+        void mostrar();                   //Muestra el Arbol por pantalla en formato de tabla (inorden)
 };
 
 #endif // ARBOL_H

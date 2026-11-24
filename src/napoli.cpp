@@ -15,80 +15,92 @@ napoli::~napoli()
 
 //-----------------------------------------------------------------------------------------------//
 
+//Devuelve True si el id_centro ya está registrado en el sistema
+bool napoli::idYaEnSistema(int id_centro)
+{
+    return centros.estaEnArbol(id_centro);
+}
+
+//Devuelve True si el id_venta ya está registrado en el sistema
+bool napoli::idYaEnSistema(string id_venta)
+{
+    return centros.estaEnArbol(id_venta);
+}
+
+//Genera N_CENTROS aleatorios y los añade al arbol de centros del sistema
+void napoli::generarCentros()
+{
+    int id; //ID del centro
+    for(int i = 0; i < N_CENTROS; i++)
+    {
+        do
+        {
+            id = generarIDCentroRandom(); //Generamos un ID aleatorio
+        }
+        while(idYaEnSistema(id));        //Repetimos si el ID ya existe en el sistema
+
+        //Generamos un centro aleatorio con ese id y lo insertamos en el arbol del sistema
+        Centro c = generarCentroRandom(id);
+        centros.insertar(c);
+    }
+}
+
+//Genera N_VENTAS aleatorias y las añade a la lista ventas
+void napoli::generarVentas(Lista& ventas)
+{
+    int ids[centros.getNodos()]; //Identificadores de los centros registrados en el sistema
+    centros.getIDs(ids);         //Obtenemos todos los identificadores en el Arbol
+
+    string id; //ID de la venta
+    for(int i = 0; i < N_VENTAS; i++)
+    {
+        do
+        {
+            id = generarIDVentaRandom(); //Generamos un ID aleatorio
+        }
+        while(idYaEnSistema(id));        //Repetimos si el ID ya existe en el sistema
+
+        //Generamos una venta aleatoria con ese id y lo insertamos al final de la lista
+        Venta v = generarVentaRandom(id);
+        v.id_centro = ids[rand() % centros.getNodos()]; //Le asignamos un centro existente
+        ventas.insertar(v);
+    }
+}
+
+//Distribuye la lista de ventas entre los distintos centros del sistema
+void napoli::distribuirVentas(Lista& ventas)
+{
+    //Para todas las ventas de la lista
+    Venta v;
+    for(int i = 0; i < ventas.getLongitud(); i++)
+    {
+        Venta v = ventas.obtener(i); //Venta en la posición i
+        centros.insertar(v);  //La insertamos en el Arbol
+    }
+}
+
 //Crea los centros y las ventas iniciales al comenzar el programa
 void napoli::crearDatosIniciales()
 {
-    int ids[N_CENTROS]; //Identificadores de los centros creados
-    bool localidad_usada[N_LOCALIDADES] = {false}; //Localidades ya elegidas
-    Lista nuevas; //Ventas generadas antes de distribuirlas
-
     cout << "Creando el ABB con " << N_CENTROS << " centros:" << endl;
+    generarCentros(); //Generamos N_CENTROS
 
-    //Creamos los centros con identificadores y localidades distintas
-    for(int i = 0; i < N_CENTROS; i++)
-    {
-        int id;
-        int localidad;
+    cout << "\nArbol inicial:" << endl;
+    centros.mostrar(); //Mostramos el Arbol de centros por pantalla
 
-        //Generamos un identificador que no exista ya en el arbol
-        do
-        {
-            id = rand() % 900 + 100;
-        }
-        while(centros.estaEnArbol(id));
-
-        //Generamos una localidad que no se haya usado todavia
-        do
-        {
-            localidad = rand() % N_LOCALIDADES;
-        }
-        while(localidad_usada[localidad]);
-
-        localidad_usada[localidad] = true;
-
-        //Creamos el centro con su lista de ventas vacia
-        Centro c;
-        c.id_centro = id;
-        c.localidad = (Localidad)localidad;
-        centros.insertar(c);
-
-        ids[i] = id; //Guardamos el identificador para las ventas
-    }
-
-    cout << "Arbol inicial:" << endl;
-    centros.mostrarResumen();
-
-    //Generamos las ventas, cada una asignada a un centro existente
-    for(int i = 0; i < N_VENTAS; i++)
-    {
-        Venta v = generarVentaRandom();
-
-        v.id_centro = ids[rand() % N_CENTROS]; //Centro que existe en el ABB
-
-        //Si el identificador de la venta ya ha salido, generamos otro
-        while(nuevas.estaEnLista(v.id_venta))
-        {
-            v.id_venta = generarIDVentaRandom();
-        }
-
-        nuevas.insertar(v);
-    }
+    Lista ventas; //Lista para almacenar las ventas creadas
+    generarVentas(ventas); //Generamos N_VENTAS
 
     cout << endl << "Ventas nuevas:" << endl;
-    nuevas.mostrar();
+    ventas.mostrar(); //Mostramos las ventas generadas
 
     cout << endl << "Pulse Enter para distribuir las ventas" << endl;
     cin.get();
 
-    //Distribuimos cada venta al final de la lista de su centro
-    for(int i = 0; i < nuevas.getLongitud(); i++)
-    {
-        Venta v = nuevas.obtener(i);
-        centros.insertarVenta(v);
-    }
+    distribuirVentas(ventas); //Distribuimos las ventas
 
     cout << "Ventas distribuidas. Estado del arbol:" << endl;
-    centros.mostrarResumen();
+    centros.mostrar();
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -117,8 +129,6 @@ bool napoli::leerEntero(int& valor)
     valor = numero; //Guardamos el numero en la variable
     return true;
 }
-
-//-----------------------------------------------------------------------------------------------//
 
 //Muestra el menu de localidades y devuelve la posicion del enum elegida (-1 si no es valida)
 int napoli::pedirLocalidad()
@@ -149,8 +159,8 @@ int napoli::pedirLocalidad()
 //Opcion 1: inserta un centro introducido manualmente por el usuario
 void napoli::insertarCentro()
 {
-    int id;
-    int localidad;
+    int id;        //ID del centro
+    int localidad; //Localidad
 
     cout << "ID del centro (100-999): ";
 
@@ -191,6 +201,36 @@ void napoli::insertarCentro()
 
 //-----------------------------------------------------------------------------------------------//
 
+//Opcion 2: elimina un centro por su identificador
+void napoli::borrarCentro()
+{
+    int id;        //ID del centro
+    int localidad; //Localidad
+
+    cout << "ID del centro (100-999): ";
+
+    //Validamos que el identificador sea un numero de 3 cifras
+    if(!leerEntero(id) || id < 100 || id > 999)
+    {
+        cout << "Error: el identificador debe ser un numero de 3 cifras (100-999)." << endl;
+        return;
+    }
+
+    //Comprobamos que esté en el sistema
+    if(!idYaEnSistema(id))
+    {
+        cout << "No existe un centro con el identificador " << id << " en el sistema." << endl;
+    }
+    else
+    {
+        centros.eliminar(id); //Eliminamos el centro
+        cout << endl << "Centro eliminado correctamente:" << endl;
+        centros.mostrar(); //Mostramos el estado del sistema
+    }
+}
+
+//-----------------------------------------------------------------------------------------------//
+
 //Opcion 3: muestra la localidad y las ventas de un centro
 void napoli::mostrarVentasCentro()
 {
@@ -211,9 +251,13 @@ void napoli::mostrarVentasCentro()
         return;
     }
 
-    //Obtenemos el centro y mostramos su localidad y sus ventas
-    Centro c = centros.obtener(id);
-    mostrarCentro(c);
+    else
+    {
+        //Obtenemos el centro y mostramos su localidad y sus ventas
+        Centro c;
+        centros.buscar(id, c);
+        mostrarCentro(c);
+    }
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -228,22 +272,65 @@ void napoli::buscarVenta()
     cin >> id;
 
     //Recorremos el ABB hasta encontrar la venta
-    if(!centros.buscarVenta(id, v))
+    if(!centros.buscar(id, v))
     {
         cout << "Error: no existe ninguna venta con el identificador " << id << "." << endl;
-        return;
     }
 
-    //La propia venta guarda el id del centro al que pertenece
-    Centro c = centros.obtener(v.id_centro);
+    //Una vez encontrada
+    else
+    {
+        cout << endl << "Venta encontrada:" << endl;
 
-    //Mostramos los datos de la venta y el centro al que pertenece
-    cout << endl << "Venta encontrada:" << endl;
-    cout << "CENTRO " << c.id_centro << " - " << localidadToString(c.localidad) << endl;
-    cout << "+---------------------------------------------------------------------------+" << endl
-         << "| ID Centro | ID Venta | Codigo Pizza |  Categoria  | Unidades |   Fecha    |" << endl
-         << "+---------------------------------------------------------------------------+" << endl;
-    mostrarFila(v);
-    cout << endl
-         << "+---------------------------------------------------------------------------+" << endl;
+        cout << "+---------------------------------------------------------------------------+" << endl
+             << "| ID Centro | ID Venta | Codigo Pizza |  Categoria  | Unidades |   Fecha    |" << endl
+             << "+---------------------------------------------------------------------------+" << endl;
+
+        mostrarFila(v); //Lo mostramos por pantalla
+
+        cout << "\n+---------------------------------------------------------------------------+" << endl;
+    }
+
 }
+
+//-----------------------------------------------------------------------------------------------//
+
+//Opcion 5: elimina una venta por su identificador
+void napoli::extraerVenta()
+{
+    //Sin implementar
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+//Opcion 6: se trasladara una venta a otro centro indicando el id_venta y el id_centro destino
+void napoli::trasladarVenta()
+{
+    //Sin implementar
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+//Opcion 7: muestra estadisticas (nº ventas, nº pizzas vendidas en cada centro, pizza mas vendida, centro con mas pizzas vendidas)
+void napoli::mostrarEstadisticas()
+{
+    //Sin implementar
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+//Opcion 8: se generara otro lote de N_VENTAS y se distribuira entre los centros del sistema
+void napoli::generarYDistribuirVentas()
+{
+    Lista ventas; //Lista para almacenar las ventas creadas
+    generarVentas(ventas); //Generamos N_VENTAS
+
+    cout << endl << "Ventas nuevas:" << endl;
+    ventas.mostrar(); //Mostramos las ventas generadas
+
+    distribuirVentas(ventas); //Distribuimos las ventas
+
+    cout << "Ventas distribuidas. Estado del arbol:" << endl;
+    centros.mostrar();
+}
+

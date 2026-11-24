@@ -8,44 +8,6 @@ Lista::Lista()
     longitud = 0;  //Longitud a 0
 }
 
-//Constructor de copia: crea una lista nueva e independiente de la recibida
-Lista::Lista(const Lista& l)
-{
-    cabeza = NULL; //Puntero cabeza a NULL
-    ultimo = NULL; //Puntero ultimo a NULL
-    longitud = 0;  //Longitud a 0
-
-    NodoLista *aux = l.cabeza; //Puntero auxiliar a la cabeza de la lista recibida
-
-    //Copiamos cada venta al final de la nueva lista
-    while(aux != NULL)
-    {
-        insertar(aux->valor); //Insertamos una copia de la venta
-        aux = aux->siguiente; //Siguiente nodo
-    }
-}
-
-//Operador de asignacion: vacia la lista y copia los elementos de la recibida
-Lista& Lista::operator=(const Lista& l)
-{
-    //Evitamos el caso de asignar una lista a si misma
-    if(this != &l)
-    {
-        vaciar(); //Vaciamos la lista actual
-
-        NodoLista *aux = l.cabeza; //Puntero auxiliar a la cabeza de la lista recibida
-
-        //Copiamos cada venta al final de la lista
-        while(aux != NULL)
-        {
-            insertar(aux->valor); //Insertamos una copia de la venta
-            aux = aux->siguiente; //Siguiente nodo
-        }
-    }
-
-    return *this; //Devolvemos la lista actual
-}
-
 //Destructor
 Lista::~Lista()
 {
@@ -57,9 +19,8 @@ Lista::~Lista()
         aux = cabeza;               //Nodo auxiliar apunta al primer nodo
         cabeza = cabeza->siguiente; //Cabeza apunta al siguiente
         delete(aux);                //Eliminamos el nodo apuntado por auxiliar
-        aux = NULL;                 //Puntero auxiliar a NULL
-
     }
+    aux = NULL;                     //Puntero auxiliar a NULL
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -272,10 +233,9 @@ Venta Lista::obtener(int pos)
 //-----------------------------------------------------------------------------------------------//
 
 //Devuelve la posición de la primera aparición de la Venta con ese id (-1 si no lo encuentra)
-int Lista::buscar(string id)
+bool Lista::buscar(string id, Venta& v)
 {
     bool encontrado = false; //Inicializamos encontrado a False
-    int contador = 0;         //Inicializamos un contador a cero
     NodoLista *aux = cabeza; //Puntero auxiliar apunta a la cabeza
 
     //Avanzamos el puntero auxiliar hasta encontrar el elemento o llegar al final de la lista
@@ -285,27 +245,18 @@ int Lista::buscar(string id)
         if(aux->valor.id_venta == id)
         {
             encontrado = true;
+            v = aux->valor;
         }
 
         //Si no
         else
         {
             aux = aux->siguiente; //Avanzamos el puntero al siguiente nodo
-            contador++;           //Incrementamos el contador
         }
     }
 
-    //Si lo hemos encontrado
-    if(encontrado)
-    {
-        return contador; //Devolvemos la posición
-    }
-
-    //Si no
-    else
-    {
-        return -1; //Devolvemos -1
-    }
+    //Devolvemos si lo hemos encontrado
+    return encontrado;
 }
 
 //Devuelve True si la Venta con ese id está en la lista

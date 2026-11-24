@@ -17,12 +17,11 @@ Arbol::~Arbol()
 void Arbol::Podar(NodoArbol *nodo)
 {
     //Algoritmo recursivo, recorrido en postorden
-    if(nodo)
-    {
-        Podar(nodo->izquierda); //Podar izquierdo
-        Podar(nodo->derecha);   //Podar derecho
-        delete(nodo);            //Eliminar nodo
-        nodo = NULL;            //Puntero nodo a NULL
+    if(nodo) {
+      Podar(nodo->izquierda); //Podar izquierdo
+      Podar(nodo->derecha);   //Podar derecho
+      delete(nodo);           //Eliminar nodo
+      nodo = NULL;            //Puntero nodo a NULL
     }
 }
 
@@ -51,8 +50,31 @@ int Arbol::getNodos()
 
 //-----------------------------------------------------------------------------------------------//
 
+//Introduce todos los ID de los centros del subarbol en el array ids[] (preorden)
+void Arbol::getIDsNodo(NodoArbol *nodo, int ids[], int& indice)
+{
+    //Si el nodo no es nulo
+    if(nodo != NULL)
+    {
+        ids[indice] = nodo->valor.id_centro; //Insertamos el id_centro
+        indice++;                            //Incrementamos el indice
+
+        getIDsNodo(nodo->izquierda, ids, indice); //Obtenemos los del hijo izquierdo
+        getIDsNodo(nodo->derecha, ids, indice);   //Obtenemos los del hijo derecho
+    }
+}
+
+//Introduce todos los ID de los centros del Arbol en el array ids[] //Cuidado con el tamaño del array
+void Arbol::getIDs(int ids[])
+{
+    int indice = 0;
+    getIDsNodo(raiz, ids, indice);
+}
+
+//-----------------------------------------------------------------------------------------------//
+
 //Inserta un nodo de forma ordenada en el Arbol
-void Arbol::insertar(Centro c)
+void Arbol::insertar(Centro& c)
 {
     NodoArbol *nuevo = new NodoArbol(c); //Puntero al nuevo nodo
 
@@ -127,6 +149,37 @@ void Arbol::insertar(Centro c)
     nodos++; //Incrementamos el número de nodos
 }
 
+//Inserta una venta en el centro correspondiente del Arbol al final
+void Arbol::insertar(Venta v)
+{
+    NodoArbol *aux = raiz;  //Puntero auxiliar a la raiz del arbol
+    bool insertado = false; //Valor para determinar si se ha insertado
+
+    //Buscamos el nodo del centro de la venta
+    while(!insertado && aux != NULL)
+    {
+        if(aux->valor.id_centro == v.id_centro)
+        {
+            aux->valor.ventas.insertar(v); //Se inserta al final de la lista
+            insertado = true;
+        }
+        else if(v.id_centro < aux->valor.id_centro)
+        {
+            aux = aux->izquierda;
+        }
+        else
+        {
+            aux = aux->derecha;
+        }
+    }
+
+    //Si no se ha encontrado el centro asociado
+    if(!insertado)
+    {
+        cout << "El centro asociado a la venta no se encuentra en el Arbol" << endl;
+    }
+}
+
 //-----------------------------------------------------------------------------------------------//
 
 //Elimina un nodo del arbol
@@ -197,17 +250,21 @@ void Arbol::eliminarNodo(NodoArbol *nodo, NodoArbol *padre, bool derecha)
             raiz = nodo->izquierda; //Raiz al hijo izquierdo
         }
 
-        //Ponemos el puntero del padre al hijo izquierdo
-        if(derecha)
-        {
-            padre->derecha = nodo->izquierda; //Hijo derecho padre
-        }
+        //Si no
         else
         {
-            padre->izquierda = nodo->izquierda; //Hijo izquierdo padre
+            //Ponemos el puntero del padre al hijo izquierdo
+            if(derecha)
+            {
+                padre->derecha = nodo->izquierda; //Hijo derecho padre
+            }
+            else
+            {
+                padre->izquierda = nodo->izquierda; //Hijo izquierdo padre
+            }
         }
 
-        nodo->derecha = NULL; //Puntero al hijo a NULL
+        nodo->izquierda = NULL; // Limpiamos el puntero por seguridad
         delete(nodo); //Eliminamos el nodo
         nodo = NULL;  //Puntero nodo a NULL
     }
@@ -233,7 +290,7 @@ void Arbol::eliminarNodo(NodoArbol *nodo, NodoArbol *padre, bool derecha)
         }
 
         //Actualizamos el valor del nodo principal con el valor del máximo encontrado
-        nodo->valor = maximo->valor;
+        copiarCentro(maximo->valor, nodo->valor);
 
         //Eliminamos recursivamente el nodo máximo
         eliminarNodo(maximo, padreMaximo, derechaMaximo);
@@ -256,7 +313,7 @@ void Arbol::eliminar(int id)
         {
             eliminarNodo(aux, padre, derecha); //Lo eliminamos
             eliminado = true;                  //Eliminado
-            nodos--; //Decrementamos el número de nodos
+            nodos--;                           //Decrementamos el número de nodos
         }
 
         //Si no
@@ -283,20 +340,19 @@ void Arbol::eliminar(int id)
 
 //-----------------------------------------------------------------------------------------------//
 
-//Devuelve el Centro con el identificador dado
-Centro Arbol::obtener(int id)
+//Devuelve True y el centro con el id buscado en c si se ha encontrado (False si no)
+bool Arbol::buscar(int id, Centro& c)
 {
     bool encontrado = false; //Valor para determinar si lo hemos encontrado
     NodoArbol *aux = raiz;   //Puntero auxiliar a la raiz del arbol
-    Centro c;
 
     while(!encontrado && aux != NULL)
     {
         //Si aux apunta al nodo con el identificador buscado
         if(aux->valor.id_centro == id)
         {
-            c = aux->valor;    //Centro con el ID buscado
-            encontrado = true; //Encontrado
+            copiarCentro(aux->valor, c); //Centro con el ID buscado en c
+            encontrado = true;           //Encontrado
         }
 
         //Si no
@@ -316,10 +372,54 @@ Centro Arbol::obtener(int id)
         }
     }
 
-    return c; //Devolvemos el centro (por defecto si no encontrado)
+    return encontrado; //Devolvemos si se ha encontrado el centro
 }
 
-//Devuelve True si el identificador está en el arbol
+
+//Busca una venta por su identificador en el subarbol que empieza en nodo (en inorden)
+bool Arbol::buscarVentaNodo(NodoArbol *nodo, string id, Venta& v)
+{
+    //Si el subarbol esta vacio, no hay nada que buscar
+    if(nodo == NULL)
+    {
+        return false;
+    }
+
+    //Buscamos primero en el subarbol izquierdo
+    if(buscarVentaNodo(nodo->izquierda, id, v))
+    {
+        return true;
+    }
+
+    //Buscamos la venta en la lista del centro (sin modificar la lista)
+    else if(nodo->valor.ventas.buscar(id, v))
+    {
+        return true;
+    }
+
+
+    //Si no esta, buscamos en el subarbol derecho
+    else if(buscarVentaNodo(nodo->derecha, id, v))
+    {
+        return true;
+    }
+
+    //Si no se encuentra
+    else
+    {
+        return false;
+    }
+}
+
+//Devuelve True y la venta con el id buscado en v si se ha encontrado (False si no)
+bool Arbol::buscar(string id, Venta& v)
+{
+    return buscarVentaNodo(raiz, id, v); //Empezamos por la raiz
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+//Devuelve True si el centro con el identificador está en el Arbol
 bool Arbol::estaEnArbol(int id)
 {
     bool encontrado = false; //Valor para determinar si lo hemos encontrado
@@ -354,10 +454,8 @@ bool Arbol::estaEnArbol(int id)
     return encontrado; //Devolvemos encontrado
 }
 
-//-----------------------------------------------------------------------------------------------//
-
-//Busca una venta por su identificador en el subarbol que empieza en nodo (en inorden)
-bool Arbol::buscarVentaRec(NodoArbol *nodo, string id, Venta& v)
+//Devuelve True si la venta está en el subarbol que empieza en nodo (en inorden)
+bool Arbol::ventaEnNodo(NodoArbol *nodo, string id)
 {
     //Si el subarbol esta vacio, no hay nada que buscar
     if(nodo == NULL)
@@ -366,57 +464,35 @@ bool Arbol::buscarVentaRec(NodoArbol *nodo, string id, Venta& v)
     }
 
     //Buscamos primero en el subarbol izquierdo
-    if(buscarVentaRec(nodo->izquierda, id, v))
+    if(ventaEnNodo(nodo->izquierda, id))
     {
         return true;
     }
 
     //Buscamos la venta en la lista del centro (sin modificar la lista)
-    int pos = nodo->valor.ventas.buscar(id);
-
-    //Si esta en este centro, guardamos la venta y terminamos
-    if(pos != -1)
+    else if(nodo->valor.ventas.estaEnLista(id))
     {
-        v = nodo->valor.ventas.obtener(pos); //Venta encontrada
         return true;
     }
 
+
     //Si no esta, buscamos en el subarbol derecho
-    return buscarVentaRec(nodo->derecha, id, v);
+    else if(ventaEnNodo(nodo->derecha, id))
+    {
+        return true;
+    }
+
+    //Si no se encuentra
+    else
+    {
+        return false;
+    }
 }
 
 //Devuelve True si encuentra la venta en algun centro del arbol (el id es unico)
-bool Arbol::buscarVenta(string id, Venta& v)
+bool Arbol::estaEnArbol(string id)
 {
-    return buscarVentaRec(raiz, id, v); //Empezamos por la raiz
-}
-
-//-----------------------------------------------------------------------------------------------//
-
-//Inserta una venta al final de la lista del centro indicado en v.id_centro
-bool Arbol::insertarVenta(Venta v)
-{
-    NodoArbol *aux = raiz; //Puntero auxiliar a la raiz del arbol
-
-    //Buscamos el nodo del centro de la venta
-    while(aux != NULL)
-    {
-        if(aux->valor.id_centro == v.id_centro)
-        {
-            aux->valor.ventas.insertar(v); //Se inserta al final de la lista
-            return true;
-        }
-        else if(v.id_centro < aux->valor.id_centro)
-        {
-            aux = aux->izquierda;
-        }
-        else
-        {
-            aux = aux->derecha;
-        }
-    }
-
-    return false; //No existe ningun centro con ese identificador
+    return ventaEnNodo(raiz, id); //Empezamos por la raiz
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -430,7 +506,8 @@ void Arbol::mostrarNodoInOrden(NodoArbol *nodo)
         mostrarNodoInOrden(nodo->izquierda); //Se muestra en inorden
     }
 
-    Centro c = nodo->valor; //Centro a mostrar por pantalla (raiz del subárbol)
+    Centro c;
+    copiarCentro(nodo->valor, c); //Centro a mostrar por pantalla (raiz del subárbol)
 
     cout << left << "| " << setw(9) << c.id_centro              //ID centro
          << " | " << setw(22) << localidadToString(c.localidad) //Localidad
@@ -465,40 +542,4 @@ void Arbol::mostrar()
     //Imprimimos el final de la tabla
     cout << "+---------------------------------------------+" << endl
          << "Centros: " << getNodos() << endl;
-}
-
-//-----------------------------------------------------------------------------------------------//
-
-//Muestra por pantalla los datos de los nodos del subarbol (en inorden)
-void Arbol::mostrarResumenRec(NodoArbol *nodo)
-{
-    //Si tiene hijo izquierdo
-    if(nodo->izquierda != NULL)
-    {
-        mostrarResumenRec(nodo->izquierda);
-    }
-
-    //Mostramos el identificador, la localidad y el numero de ventas
-    cout << "ID: " << nodo->valor.id_centro
-         << " Localidad: " << setw(22) << localidadToString(nodo->valor.localidad)
-         << " Num ventas: " << nodo->valor.ventas.getLongitud() << endl;
-
-    //Si tiene hijo derecho
-    if(nodo->derecha != NULL)
-    {
-        mostrarResumenRec(nodo->derecha);
-    }
-}
-
-//Muestra un resumen de todos los centros del arbol (en inorden)
-void Arbol::mostrarResumen()
-{
-    if(esVacio())
-    {
-        cout << "El arbol esta vacio." << endl;
-    }
-    else
-    {
-        mostrarResumenRec(raiz);
-    }
 }
