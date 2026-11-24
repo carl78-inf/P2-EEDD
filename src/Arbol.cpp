@@ -17,11 +17,12 @@ Arbol::~Arbol()
 void Arbol::Podar(NodoArbol *nodo)
 {
     //Algoritmo recursivo, recorrido en postorden
-    if(nodo) {
-      Podar(nodo->izquierda); //Podar izquierdo
-      Podar(nodo->derecha);   //Podar derecho
-      delete(nodo);           //Eliminar nodo
-      nodo = NULL;            //Puntero nodo a NULL
+    if(nodo)
+    {
+        Podar(nodo->izquierda); //Podar izquierdo
+        Podar(nodo->derecha);   //Podar derecho
+        delete(nodo);           //Eliminar nodo
+        nodo = NULL;            //Puntero nodo a NULL
     }
 }
 
