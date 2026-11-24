@@ -68,7 +68,7 @@ Lista::~Lista()
 bool Lista::esVacia()
 {
     return (cabeza == NULL)
-        && (ultimo == NULL);
+           && (ultimo == NULL);
 }
 
 //Devuelve la longitud de la Lista

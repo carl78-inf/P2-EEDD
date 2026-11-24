@@ -34,13 +34,15 @@ void napoli::crearDatosIniciales()
         do
         {
             id = rand() % 900 + 100;
-        } while(centros.estaEnArbol(id));
+        }
+        while(centros.estaEnArbol(id));
 
         //Generamos una localidad que no se haya usado todavia
         do
         {
             localidad = rand() % N_LOCALIDADES;
-        } while(localidad_usada[localidad]);
+        }
+        while(localidad_usada[localidad]);
 
         localidad_usada[localidad] = true;
 

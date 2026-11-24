@@ -193,12 +193,18 @@ void pruebas()
     Centro c1, c2, c3, c4, c5, c6;
 
     //Generamos 6 centros aleatorios
-    c1 = generarCentroRandom(); c1.id_centro = 100;
-    c2 = generarCentroRandom(); c2.id_centro = 200;
-    c3 = generarCentroRandom(); c3.id_centro = 300;
-    c4 = generarCentroRandom(); c4.id_centro = 400;
-    c5 = generarCentroRandom(); c5.id_centro = 500;
-    c6 = generarCentroRandom(); c6.id_centro = 600;
+    c1 = generarCentroRandom();
+    c1.id_centro = 100;
+    c2 = generarCentroRandom();
+    c2.id_centro = 200;
+    c3 = generarCentroRandom();
+    c3.id_centro = 300;
+    c4 = generarCentroRandom();
+    c4.id_centro = 400;
+    c5 = generarCentroRandom();
+    c5.id_centro = 500;
+    c6 = generarCentroRandom();
+    c6.id_centro = 600;
     Arbol a;
 
     //Árbol vacío
@@ -295,12 +301,18 @@ void pruebas()
 
     //EstaEnArbol
     cout << "\n+ Llenamos el Arbol y comprobamos si estan o no distintos identificadores" << endl;
-    c1 = generarCentroRandom(); c1.id_centro = 435;
-    c2 = generarCentroRandom(); c2.id_centro = 934;
-    c3 = generarCentroRandom(); c3.id_centro = 300;
-    c4 = generarCentroRandom(); c4.id_centro = 543;
-    c5 = generarCentroRandom(); c5.id_centro = 527;
-    c6 = generarCentroRandom(); c6.id_centro = 112;
+    c1 = generarCentroRandom();
+    c1.id_centro = 435;
+    c2 = generarCentroRandom();
+    c2.id_centro = 934;
+    c3 = generarCentroRandom();
+    c3.id_centro = 300;
+    c4 = generarCentroRandom();
+    c4.id_centro = 543;
+    c5 = generarCentroRandom();
+    c5.id_centro = 527;
+    c6 = generarCentroRandom();
+    c6.id_centro = 112;
     a.insertar(c1);
     a.insertar(c2);
     a.insertar(c3);
@@ -356,7 +368,8 @@ int main()
         cout << "+--------------------------------------------------+" << endl;
         cout << "Seleccion > ";
 
-        cin >> option; cout << endl;
+        cin >> option;
+        cout << endl;
 
         switch (option)
         {

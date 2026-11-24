@@ -32,30 +32,30 @@ Venta generarVentaRandom(string id)
     //Categoría correspondiente según el código de pizza
     switch(num)
     {
-        case 1:
-            v.categoria = Tradicional;
-            break;
-        case 2:
-            v.categoria = Tradicional;
-            break;
-        case 3:
-            v.categoria = Carne;
-            break;
-        case 4:
-            v.categoria = Carne;
-            break;
-        case 5:
-            v.categoria = Verduras;
-            break;
-        case 6:
-            v.categoria = Verduras;
-            break;
-        case 7:
-            v.categoria = Quesos;
-            break;
-        case 8:
-            v.categoria = Quesos;
-            break;
+    case 1:
+        v.categoria = Tradicional;
+        break;
+    case 2:
+        v.categoria = Tradicional;
+        break;
+    case 3:
+        v.categoria = Carne;
+        break;
+    case 4:
+        v.categoria = Carne;
+        break;
+    case 5:
+        v.categoria = Verduras;
+        break;
+    case 6:
+        v.categoria = Verduras;
+        break;
+    case 7:
+        v.categoria = Quesos;
+        break;
+    case 8:
+        v.categoria = Quesos;
+        break;
     }
 
     v.unidades = rand() % 20 + 1; //Número de pizzas aleatorio entre 1 y 20
@@ -109,7 +109,7 @@ string categoriaPizzaToString(CategoriaPizza categoria)
     case Quesos:
         resultado = "Quesos";
         break;
-    defautl:
+defautl:
         resultado = "NULL";
     }
     return resultado;

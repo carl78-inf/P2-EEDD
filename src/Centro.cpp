@@ -24,7 +24,8 @@ Centro generarCentroRandom(int id)
 
     Localidad local[] = {Mostoles, Alcala, Leganes, Fuenlabrada, Getafe, Alcorcon, Torrejon, Parla,
                          Alcobendas, Coslada, Pozuelo, Rivas, Valdemoro, Majadahonda, Aranjuez, Arganda,
-                         Boadilla, Pinto, Colmenar, TresCantos, Azuqueca};
+                         Boadilla, Pinto, Colmenar, TresCantos, Azuqueca
+                        };
 
     c.localidad = local[rand() % (21)]; //Localidad aleatoria
 
@@ -102,7 +103,7 @@ string localidadToString(Localidad localidad)
     case Azuqueca:
         resultado = "Azuqueca de Henares";
         break;
-    defautl:
+defautl:
         resultado = "NULL";
     }
     return resultado;

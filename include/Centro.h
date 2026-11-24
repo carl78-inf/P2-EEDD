@@ -8,7 +8,8 @@ using namespace std;
 //Definición de los tipos enumerados que utilizará Venta
 enum Localidad {Mostoles, Alcala, Leganes, Fuenlabrada, Getafe, Alcorcon, Torrejon, Parla,
                 Alcobendas, Coslada, Pozuelo, Rivas, Valdemoro, Majadahonda, Aranjuez, Arganda,
-                Boadilla, Pinto, Colmenar, TresCantos, Azuqueca};
+                Boadilla, Pinto, Colmenar, TresCantos, Azuqueca
+               };
 
 //Centro --> valor en NodoABB
 struct Centro
