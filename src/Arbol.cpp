@@ -71,7 +71,28 @@ void Arbol::getIDs(int ids[])
     int indice = 0;
     getIDsNodo(raiz, ids, indice);
 }
+/*
+//Introduce todas las localidades de los centros del subarbol en el array localidades[] (preorden)
+void Arbol::getLocalidadesNodo(NodoArbol *nodo, Localidad localidades[], int& indice)
+{
+    //Si el nodo no es nulo
+    if(nodo != NULL)
+    {
+        localidades[indice] = nodo->valor.localidad; //Insertamos la localidad del centro
+        indice++;                                    //Incrementamos el indice
 
+        getLocalidadesNodo(nodo->izquierda, localidades, indice); //Obtenemos los del hijo izquierdo
+        getLocalidadesNodo(nodo->derecha, localidades, indice);   //Obtenemos los del hijo derecho
+    }
+}
+
+//Introduce todas las localidades de los centros del Arbol en el array localidades[] //Cuidado con el tamaño del array
+void Arbol::getLocalidades(Localidad localidades[])
+{
+    int indice = 0;
+    getLocalidadesNodo(raiz, localidades, indice);
+}
+*/
 //-----------------------------------------------------------------------------------------------//
 
 //Inserta un nodo de forma ordenada en el Arbol

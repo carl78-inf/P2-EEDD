@@ -32,7 +32,30 @@ bool napoli::idYaEnSistema(string id_venta)
 {
     return centros.estaEnArbol(id_venta);
 }
+/*
+bool napoli::localidadYaEnSistema(Localidad localidad)
+{
+    Localidad localidades[21];
+    centros.getLocalidades(localidades);
 
+    bool yaEnSistema = false;
+    int contador = 0;
+
+    while(!yaEnSistema && contador < 21)
+    {
+        if(localidades[contador] == localidad)
+        {
+            yaEnSistema = true;
+        }
+
+        else
+        {
+            contador++;
+        }
+    }
+
+}
+*/
 
 // ----------------------------------------------------------------------------
 // Genera N_CENTROS centros aleatorios y los inserta en el ABB.
@@ -373,17 +396,14 @@ void napoli::mostrarVentasCentro()
     }
 
     // PASO 2: comprobar que el centro existe
-    if(!centros.estaEnArbol(id))
+    Centro c;
+    if(!centros.buscar(id, c))
     {
         cout << "Error: no existe ningun centro con el identificador " << id << "." << endl;
         return;
     }
     else
     {
-        // PASO 3: obtener una copia del centro
-        Centro c;
-        centros.buscar(id, c);
-
         // PASO 4: mostrar su localidad y sus ventas
         mostrarCentro(c);
     }

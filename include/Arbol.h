@@ -32,8 +32,9 @@ private:
     //Método auxiliar para eliminar el árbol
     void Podar(NodoArbol *nodo);
 
-    //Método auxiliar para obtener los IDs de un nodo (subarbol)
+    //Método auxiliar para obtener los IDs y localidades de un nodo (subarbol)
     void getIDsNodo(NodoArbol *nodo, int ids[], int& indice);
+    /*void getLocalidadesNodo(NodoArbol *nodo, int Localidad localidades[], int& indice);*/
 
     //Métodos auxiliares para eliminar un nodo, buscar una venta y mostrar por pantalla
     void eliminarNodo(NodoArbol *nodo, NodoArbol *padre, bool derecha);
@@ -50,7 +51,8 @@ public:
 
     int getNodos(); //Devuelve el número de nodos en el Arbol
 
-    void getIDs(int ids[]);          //Introduce todos los ID de los centros del Arbol en el array ids[]
+    void getIDs(int ids[]);                       //Introduce todos los ID de los centros del Arbol en el array ids[]
+    /*void getLocalidades(Localidad localidades[]); //Introduce todas las localidades de los centros del Arbol en el array localidades[]*/
 
     void insertar(Centro& c);         //Inserta un centro en el Arbol de forma ordenada
     void insertar(Venta v);           //Inserta una venta en el centro correspondiente del Arbol al final
