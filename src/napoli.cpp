@@ -1,7 +1,5 @@
 #include "napoli.h"
 
-
-
 // Al construir un objeto napoli se crean automaticamente los datos iniciales.
 // main() hace "napoli app;", asi que nada mas arrancar el programa ya existen
 // 10 centros y 30 ventas repartidas.
@@ -306,7 +304,7 @@ void napoli::insertarCentro()
 
     // PASO 6: mostrar el centro recien creado
     cout << endl << "Centro insertado correctamente:" << endl;
-    mostrarCentro(c);
+    centros.mostrar();
 }
 
 
