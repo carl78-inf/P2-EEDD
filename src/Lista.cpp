@@ -145,7 +145,7 @@ void Lista::eliminar(int pos)
                 ultimo = aux; //Ultimo apuntará al nodo anterior
             }
 
-            delete(elim);                     //Eliminamos el nodo
+            delete(elim); //Eliminamos el nodo
         }
 
         longitud--; //Decrementamos la longitud

@@ -502,13 +502,13 @@ void napoli::generarYDistribuirVentas()
     generarVentas(ventas);
 
     // PASO 3: mostrarlas antes de repartirlas
-    cout << endl << "Ventas nuevas:" << endl;
+    cout << "Ventas nuevas:" << endl;
     ventas.mostrar();
 
     // PASO 4: repartirlas entre los centros existentes
     distribuirVentas(ventas);
 
     // PASO 5: mostrar el estado final
-    cout << "Ventas distribuidas. Estado del arbol:" << endl;
+    cout << "\nVentas distribuidas. Estado del arbol:" << endl;
     centros.mostrar();
 }

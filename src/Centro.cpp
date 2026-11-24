@@ -24,8 +24,7 @@ Centro generarCentroRandom(int id)
 
     Localidad local[] = {Mostoles, Alcala, Leganes, Fuenlabrada, Getafe, Alcorcon, Torrejon, Parla,
                          Alcobendas, Coslada, Pozuelo, Rivas, Valdemoro, Majadahonda, Aranjuez, Arganda,
-                         Boadilla, Pinto, Colmenar, TresCantos, Azuqueca
-                        };
+                         Boadilla, Pinto, Colmenar, TresCantos, Azuqueca};
 
     c.localidad = local[rand() % (21)]; //Localidad aleatoria
 
